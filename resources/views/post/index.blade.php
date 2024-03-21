@@ -4,8 +4,8 @@
     <header class="py-5 bg-light border-bottom mb-4">
         <div class="container">
             <div class="text-center my-5">
-                <h1 class="fw-bolder">Welcome to Nerds Of School!</h1>
-                <p class="lead mb-0">This is a Group For Nerds Of School</p>
+                <h1 class="fw-bolder">Welcome to Your Posts!</h1>
+                <p class="lead mb-0">here show all Your Posts</p>
             </div>
         </div>
     </header>
@@ -29,6 +29,12 @@
                                 {{ $post->body }}
                             </p>
                             <a class="btn btn-primary" href="{{ $post->slug }}">Read more →</a>
+                            <a class="btn btn-success" href="{{ route('post.edit',$post->id) }}">Edit →</a>
+                            <form action="{{ route('post.destroy',$post->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete →</button>
+                            </form>
                         </div>
                     </div>
                 @endforeach
