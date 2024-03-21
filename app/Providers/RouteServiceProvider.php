@@ -49,9 +49,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
 
-		Route::bind('slug',function ($slug){
+		/*Route::bind('slug',function ($slug){
 			return $post = Post::where('slug',$slug)->firstOrfail();
-		});
+		});*/
     }
 
     /**

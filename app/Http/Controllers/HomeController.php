@@ -13,10 +13,12 @@ class HomeController extends Controller
 		return view('home', compact('posts'));
 	}
 
-	public function post($post)
+	public function post($slug)
 	{
-		$user = Post::find($post->id)->user;
-		return view('post', compact(['post', 'user']));
+		$post = Post::where('slug',$slug)->firstOrfail();
+		$user = $post->user;
+		$comments = $post->comments;
+		return view('post', compact(['post', 'user','comments']));
 	}
 
 	public function search($search)

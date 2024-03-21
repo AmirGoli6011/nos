@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -15,14 +16,16 @@ use App\Http\Controllers\HomeController;
 |
 */
 
+Auth::routes();
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::resource('post',PostController::class);
+Route::resource('post', PostController::class);
 
-Route::post('upload',[PostController::class,'upload'])->name('post.upload');
+Route::resource('comment', CommentController::class);
+
+Route::post('upload', [PostController::class, 'upload'])->name('post.upload');
 
 Route::get('/{slug}', [HomeController::class, 'post'])->name('post');
 
 //Route::get('/{search}', [HomeController::class, 'search'])->name('search');
-
-Auth::routes();

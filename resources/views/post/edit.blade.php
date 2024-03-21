@@ -15,11 +15,23 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="title">عنوان: </label>
-                            <input type="text" class="form-control" name="title" id="title" value="{{ $post->title }}">
+                            <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                   name="title" id="title" value="{{ $post->title }}">
+                            @error('title')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="title">بدنه: </label>
-                            <textarea class="form-control" name="body" id="body" rows="10">{{ $post->body }}</textarea>
+                            <textarea class="form-control @error('body') is-invalid @enderror"
+                                      name="body" id="body" rows="10">{{ $post->body }}</textarea>
+                            @error('body')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
                         </div>
                         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                         <button class="btn btn-success" type="submit">به روز رسانی</button>

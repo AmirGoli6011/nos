@@ -34,8 +34,11 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <!-- Comment form-->
-                            <form class="mb-4">
-                                <textarea id="comment" class="form-control" rows="3"
+                            <form class="mb-4" action="{{ route('comment.store') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                <textarea id="comment" name="comment" class="form-control" rows="3"
                                           placeholder="Join the discussion and leave a comment!"></textarea>
                                 <script>
                                     ClassicEditor
@@ -51,17 +54,19 @@
                                             console.error(error);
                                         })
                                 </script>
+                                <button type="submit" class="btn btn-success">ارسال</button>
                             </form>
                             <!-- Single comment-->
                             <div class="d-flex">
-                                <div class="flex-shrink-0"><img class="rounded-circle"
-                                                                src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                                                alt="..."/></div>
-                                <div class="ms-3">
-                                    <div class="fw-bold">Commenter Name</div>
-                                    When I look at the universe and all the ways the universe wants to kill us, I find
-                                    it hard to reconcile that with statements of beneficence.
-                                </div>
+                                @foreach($comments as $comment)
+                                    <div class="flex-shrink-0"><img class="rounded-circle"
+                                                                    src="{{ $comment->user->image }}"
+                                                                    alt="{{ $comment->user->image }}"/></div>
+                                    <div class="ms-3">
+                                        <div class="fw-bold">{{ $comment->user->name }}</div>
+                                        {!! $comment->comment !!}
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

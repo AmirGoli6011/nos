@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'avatar',
         'name',
         'email',
         'password',
@@ -45,5 +46,10 @@ class User extends Authenticatable
 	public function posts()
 	{
 		return $this->hasMany(Post::class)->orderBy('id','desc');
+	}
+
+	public function comments()
+	{
+		return $this->hasMany(Comment::class)->orderBy('id','desc');
 	}
 }
