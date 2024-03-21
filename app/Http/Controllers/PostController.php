@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Models\File;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -38,14 +39,22 @@ class PostController extends Controller
 	 */
 	public function store(PostRequest $request)
 	{
-		$image = $request->file('image');
-		$image = $image->store('image');
-		Post::create([
-			'user_id' => $request->user_id,
-			'image' => $image,
-			'title' => $request->title,
-			'body' => $request->body,
-		]);
+		if (file_exists($request->file('image'))) {
+			$image = $request->file('image');
+			$image = $image->store('images');
+			Post::create([
+				'user_id' => $request->user_id,
+				'image' => $image,
+				'title' => $request->title,
+				'body' => $request->body,
+			]);
+		} else {
+			Post::create([
+				'user_id' => $request->user_id,
+				'title' => $request->title,
+				'body' => $request->body,
+			]);
+		}
 		return redirect(route('post.index'));
 	}
 
@@ -55,10 +64,10 @@ class PostController extends Controller
 	 * @param \App\Models\Post $post
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show(Post $post)
+	/*public function show(Post $post)
 	{
 		//
-	}
+	}*/
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -82,21 +91,20 @@ class PostController extends Controller
 	{
 		if (file_exists($request->file('image'))) {
 			$image = $request->file('image');
-			$image = $image->store('image');
+			$image = $image->store('images');
 			$post->update([
 				'image' => $image,
 				'title' => $request->title,
 				'slug' => $request->title,
 				'body' => $request->body,
 			]);
-			return back();
 		} else {
 			$post->update([
 				'title' => $request->title,
 				'body' => $request->body,
 			]);
-			return redirect(route('post.index'));
 		}
+		return redirect(route('post.index'));
 	}
 
 	/**
@@ -109,5 +117,12 @@ class PostController extends Controller
 	{
 		$post->delete();
 		return redirect(route('post.index'));
+	}
+
+	public function upload(Request $request)
+	{
+		$image = $request->file('upload');
+		$image = $image->store('images');
+		return response()->json(['fileName' => $image, 'uploaded' => 1, 'url' => asset('storage/' . $image)]);
 	}
 }

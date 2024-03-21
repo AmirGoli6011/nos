@@ -21,6 +21,7 @@ class HomeController extends Controller
 
 	public function search($search)
 	{
+		dd($search);
 		$posts = Post::where('title', $search)->get();
 
 		dd($posts);

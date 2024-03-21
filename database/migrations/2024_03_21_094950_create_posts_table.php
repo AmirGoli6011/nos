@@ -19,10 +19,10 @@ class CreatePostsTable extends Migration
 				->references('id')
 				->on('users')
 				->onDelete('cascade');
-			$table->string('image');
+			$table->string('image')->nullable();
 			$table->string('title');
 			$table->string('slug');
-			$table->string('body');
+			$table->text('body');
 			$table->timestamps();
 		});
 	}

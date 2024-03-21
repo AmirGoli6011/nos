@@ -9,19 +9,49 @@
                     <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label class="form-label" for="image">Image: </label>
-                            <input type="file" class="form-control" name="image" id="image">
+                            <label class="form-label" for="image">تصویر: </label>
+                            <input type="file" class="form-control"
+                                   name="image" id="image">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="title">Title: </label>
-                            <input type="text" class="form-control" name="title" id="title">
+                            <label class="form-label" for="title">عنوان: </label>
+                            <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                   name="title" id="title">
+                            @error('title')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="title">Body: </label>
-                            <textarea class="form-control" name="body" id="body" rows="10"></textarea>
+                            <label class="form-label" for="title">بدنه: </label>
+                            <textarea class="form-control @error('body') is-invalid @enderror"
+                                      name="body" id="body" rows="10"></textarea>
+                            @error('body')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                            <script>
+                                ClassicEditor
+                                    .create(document.querySelector('#body'), {
+                                        ckfinder: {
+                                            uploadUrl: '{{route('post.upload').'?_token='.csrf_token()}}'
+                                        },
+                                        language: {
+                                            content: 'ar'
+                                        }
+                                    })
+                                    .then(editor => {
+                                        console.log(editor);
+                                    })
+                                    .catch(error => {
+                                        console.error(error);
+                                    })
+                            </script>
                         </div>
                         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                        <button class="btn btn-success" type="submit">Create</button>
+                        <button class="btn btn-success" type="submit">ساختن</button>
                     </form>
                 </article>
             </div>

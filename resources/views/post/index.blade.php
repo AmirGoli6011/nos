@@ -4,8 +4,8 @@
     <header class="py-5 bg-light border-bottom mb-4">
         <div class="container">
             <div class="text-center my-5">
-                <h1 class="fw-bolder">Welcome to Your Posts!</h1>
-                <p class="lead mb-0">here show all Your Posts</p>
+                <h1 class="fw-bolder">به پست هایی که شما ساختید خوش امدید</h1>
+                <p class="lead mb-0">اینجا همه پست هایی که شما ساخته اید را میتوانید ببنید</p>
             </div>
         </div>
     </header>
@@ -22,18 +22,18 @@
                         <a href="{{ $post->slug }}"><img class="card-img-top" src="{{ asset('storage/'.$post->image) }}"
                                                          alt="{{ $post->title }}"/></a>
                         <div class="card-body">
-                            <div class="text-muted mb-2">Posted on {{ $post->updated_at }}
-                                by {{ $post->user->name }}</div>
+                            <div class="text-muted mb-2">نوشته شده در {{ $post->updated_at }}
+                                توسط {{ $post->user->name }}</div>
                             <h2 class="card-title">{{ $post->title }}</h2>
-                            <p class="card-text">
+                            {{--<p class="card-text">
                                 {{ $post->body }}
-                            </p>
-                            <a class="btn btn-primary" href="{{ $post->slug }}">Read more →</a>
-                            <a class="btn btn-success" href="{{ route('post.edit',$post->id) }}">Edit →</a>
+                            </p>--}}
+                            <a class="btn btn-primary" href="{{ $post->slug }}">ادامه مطلب ←</a>
                             <form action="{{ route('post.destroy',$post->id) }}" method="post">
+                            <a class="btn btn-success" href="{{ route('post.edit',$post->id) }}">ویرایش</a>
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete →</button>
+                                <button type="submit" class="btn btn-danger">حذف</button>
                             </form>
                         </div>
                     </div>

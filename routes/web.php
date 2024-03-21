@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::resource('post',PostController::class);
 
-Route::get('/{slug}', [App\Http\Controllers\HomeController::class, 'post'])->name('post');
+Route::post('upload',[PostController::class,'upload'])->name('post.upload');
 
-Route::get('/{search}', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
+Route::get('/{slug}', [HomeController::class, 'post'])->name('post');
+
+//Route::get('/{search}', [HomeController::class, 'search'])->name('search');
 
 Auth::routes();

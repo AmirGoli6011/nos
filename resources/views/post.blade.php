@@ -11,8 +11,8 @@
                         <!-- Post title-->
                         <h1 class="fw-bolder mb-1">{{ $post->title }}</h1>
                         <!-- Post meta content-->
-                        <div class="text-muted fst-italic mb-2">Posted on {{ $post->updated_at }}
-                            by {{ $user->name }}</div>
+                        <div class="text-muted fst-italic mb-2">نوشته شده در {{ $post->updated_at }}
+                            توسط {{ $user->name }}</div>
                         <!-- Post categories-->
                         {{--                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>--}}
                         {{--                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>--}}
@@ -23,9 +23,10 @@
                     </figure>
                     <!-- Post content-->
                     <section class="mb-5">
-                        <p class="fs-5 mb-4">
-                            {{ $post->body }}
-                        </p>
+                        {!! $post->body !!}
+                        <script>
+                            $('img').addClass('img-fluid rounded')
+                        </script>
                     </section>
                 </article>
                 <!-- Comments section-->
@@ -33,8 +34,23 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <!-- Comment form-->
-                            <form class="mb-4"><textarea class="form-control" rows="3"
-                                                         placeholder="Join the discussion and leave a comment!"></textarea>
+                            <form class="mb-4">
+                                <textarea id="comment" class="form-control" rows="3"
+                                          placeholder="Join the discussion and leave a comment!"></textarea>
+                                <script>
+                                    ClassicEditor
+                                        .create(document.querySelector('#comment'), {
+                                            language: {
+                                                content: 'ar'
+                                            }
+                                        })
+                                        .then(editor => {
+                                            console.log(editor);
+                                        })
+                                        .catch(error => {
+                                            console.error(error);
+                                        })
+                                </script>
                             </form>
                             <!-- Single comment-->
                             <div class="d-flex">

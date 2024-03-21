@@ -10,19 +10,19 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label class="form-label" for="image">Image: </label>
+                            <label class="form-label" for="image">تصویر: </label>
                             <input type="file" class="form-control" name="image" id="image">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="title">Title: </label>
+                            <label class="form-label" for="title">عنوان: </label>
                             <input type="text" class="form-control" name="title" id="title" value="{{ $post->title }}">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="title">Body: </label>
+                            <label class="form-label" for="title">بدنه: </label>
                             <textarea class="form-control" name="body" id="body" rows="10">{{ $post->body }}</textarea>
                         </div>
                         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                        <button class="btn btn-success" type="submit">Update</button>
+                        <button class="btn btn-success" type="submit">به روز رسانی</button>
                     </form>
                 </article>
             </div>
