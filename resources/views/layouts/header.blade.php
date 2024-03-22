@@ -30,7 +30,7 @@
                                             href="{{ route('post.index') }}">{{ auth()->user()->name }}</a></li>
                     <li class="nav-item"><img class="img-fluid rounded"
                                               style="width: 70px"
-                                              src="{{ 'storage/'.auth()->user()->avatar }}"></li>
+                                              src="{{ asset('storage/'.auth()->user()->avatar) }}"></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">خروج</a></li>
                 @else
                     <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">ثبت نام</a></li>

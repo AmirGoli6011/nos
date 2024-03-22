@@ -57,17 +57,25 @@
                                 <button type="submit" class="btn btn-success">ارسال</button>
                             </form>
                             <!-- Single comment-->
-                            <div class="d-flex">
-                                @foreach($comments as $comment)
+                            @foreach($comments as $comment)
+                                <div class="d-flex">
                                     <div class="flex-shrink-0"><img class="rounded-circle"
-                                                                    src="{{ $comment->user->image }}"
-                                                                    alt="{{ $comment->user->image }}"/></div>
+                                                                    style="width: 70px"
+                                                                    src="{{ asset('storage/'.$comment->user->avatar) }}"
+                                                                    alt="{{ $comment->user->name }}"/></div>
                                     <div class="ms-3">
                                         <div class="fw-bold">{{ $comment->user->name }}</div>
                                         {!! $comment->comment !!}
                                     </div>
-                                @endforeach
-                            </div>
+                                    @if($post->user->id === auth()->user()->id)
+                                        <form action="{{ route('comment.destroy',$comment->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                        </form>
+                                    @endif
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </section>

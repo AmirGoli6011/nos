@@ -18,14 +18,14 @@ use App\Http\Controllers\HomeController;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::resource('post', PostController::class);
 
 Route::resource('comment', CommentController::class);
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::post('upload', [PostController::class, 'upload'])->name('post.upload');
 
-Route::get('/{slug}', [HomeController::class, 'post'])->name('post');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 
-//Route::get('/{search}', [HomeController::class, 'search'])->name('search');
+Route::get('/{slug}', [HomeController::class, 'post'])->name('post');
