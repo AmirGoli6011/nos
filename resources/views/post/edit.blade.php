@@ -10,6 +10,16 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
+                            <label class="form-label" for="tags">تگ ها: </label>
+                            <select class="form-control" name="tags[]" multiple>
+                                @foreach(\App\Models\Tag::all() as $tag)
+                                    <option value="{{ $tag->id }}"
+                                            {{ in_array($tag->id,$post->tags->pluck('id')->toArray())?'selected':'' }}>
+                                        {{ $tag->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label class="form-label" for="image">تصویر: </label>
                             <input type="file" class="form-control" name="image" id="image">
                         </div>
@@ -26,14 +36,30 @@
                         <div class="form-group">
                             <label class="form-label" for="title">بدنه: </label>
                             <textarea class="form-control @error('body') is-invalid @enderror"
-                                      name="body" id="body" rows="10">{{ $post->body }}</textarea>
+                                      name="body" id="body" rows="10">{!! $post->body !!}</textarea>
                             @error('body')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                             @enderror
+                            <script>
+                                ClassicEditor
+                                    .create(document.querySelector('#body'), {
+                                        ckfinder: {
+                                            uploadUrl: '{{route('post.upload').'?_token='.csrf_token()}}'
+                                        },
+                                        language: {
+                                            content: 'ar'
+                                        }
+                                    })
+                                    .then(editor => {
+                                        console.log(editor);
+                                    })
+                                    .catch(error => {
+                                        console.error(error);
+                                    })
+                            </script>
                         </div>
-                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                         <button class="btn btn-success" type="submit">به روز رسانی</button>
                     </form>
                 </article>

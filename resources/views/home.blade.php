@@ -16,36 +16,30 @@
         <div class="row">
             <!-- Blog entries-->
             <div class="col-lg-8">
-                <!-- Featured blog post-->
-                @foreach($posts as $post)
-                    <div class="card mb-4">
-                        <a href="{{ $post->slug }}"><img class="card-img-top" src="{{ asset('storage/'.$post->image) }}"
-                                                         alt="{{ $post->title }}"/></a>
-                        <div class="card-body">
-                            <div class="text-muted mb-2">نوشته شده در {{ $post->updated_at }}
-                                توسط {{ $post->user->name }}</div>
-                            <h2 class="card-title">{{ $post->title }}</h2>
-                            {{--<p class="card-text">
-                                {!! $post->body !!}
-                            </p>--}}
-                            <a class="btn btn-primary" href="{{ $post->slug }}">ادامه مطلب ←</a>
+                <div class="row">
+                    @foreach($posts as $post)
+                        <div class="col-lg-6">
+                            <!-- Blog post-->
+                            <div class="card mb-4">
+                                <a href="{{ $post->slug }}"><img class="card-img-top"
+                                                                 src="{{ asset('storage/'.$post->image) }}"
+                                                                 alt="{{ $post->title }}"/></a>
+                                <div class="card-body">
+                                    <div class="small text-muted">
+                                        نوشته شده در {{ $post->updated_at }}
+                                        توسط {{ $post->user->name }}
+                                    </div>
+                                    <h2 class="card-title h4">{{ $post->title }}</h2>
+                                    <p class="card-text">
+                                        {!! $post->body !!}
+                                    </p>
+                                    <a class="btn btn-primary" href="{{ $post->slug }}">ادامه مطلب ←</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
                 <!-- Pagination-->
-                {{--<nav aria-label="Pagination">
-                    <hr class="my-0"/>
-                    <ul class="pagination justify-content-center my-4">
-                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a>
-                        </li>
-                        <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                        <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#!">15</a></li>
-                        <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-                    </ul>
-                </nav>--}}
             </div>
             @include('layouts.sidebar')
         </div>

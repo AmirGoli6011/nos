@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostRequest;
 use App\Models\File;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -39,18 +40,31 @@ class PostController extends Controller
 	 */
 	public function store(PostRequest $request)
 	{
-		if (file_exists($request->file('image'))) {
+		if (file_exists($request->file('image')) and array_key_exists('tags', $request->all())) {
 			$image = $request->file('image');
 			$image = $image->store('images');
-			Post::create([
-				'user_id' => $request->user_id,
+			$post = auth()->user()->posts()->create([
 				'image' => $image,
 				'title' => $request->title,
 				'body' => $request->body,
 			]);
+			$post->tags()->attach($request->tags);
+		} elseif (file_exists($request->file('image'))) {
+			$image = $request->file('image');
+			$image = $image->store('images');
+			auth()->user()->posts()->create([
+				'image' => $image,
+				'title' => $request->title,
+				'body' => $request->body,
+			]);
+		} elseif (array_key_exists('tags', $request->all())) {
+			$post = auth()->user()->posts()->create([
+				'title' => $request->title,
+				'body' => $request->body,
+			]);
+			$post->tags()->attach($request->tags);
 		} else {
-			Post::create([
-				'user_id' => $request->user_id,
+			auth()->user()->posts()->create([
 				'title' => $request->title,
 				'body' => $request->body,
 			]);
@@ -64,10 +78,10 @@ class PostController extends Controller
 	 * @param \App\Models\Post $post
 	 * @return \Illuminate\Http\Response
 	 */
-	/*public function show(Post $post)
+	public function show(Post $post)
 	{
 		//
-	}*/
+	}
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -89,15 +103,29 @@ class PostController extends Controller
 	 */
 	public function update(PostRequest $request, Post $post)
 	{
-		if (file_exists($request->file('image'))) {
+		if (file_exists($request->file('image')) and array_key_exists('tags', $request->all())) {
 			$image = $request->file('image');
 			$image = $image->store('images');
 			$post->update([
 				'image' => $image,
 				'title' => $request->title,
-				'slug' => $request->title,
 				'body' => $request->body,
 			]);
+			$post->tags()->sync($request->tags);
+		} elseif (file_exists($request->file('image'))) {
+			$image = $request->file('image');
+			$image = $image->store('images');
+			$post->update([
+				'image' => $image,
+				'title' => $request->title,
+				'body' => $request->body,
+			]);
+		} elseif (array_key_exists('tags', $request->all())) {
+			$post->update([
+				'title' => $request->title,
+				'body' => $request->body,
+			]);
+			$post->tags()->sync($request->input('tags'));
 		} else {
 			$post->update([
 				'title' => $request->title,

@@ -1,3 +1,4 @@
+@php use App\Models\Tag; @endphp
 @extends('layouts.app')
 @section('content')
     <!-- Page content-->
@@ -8,6 +9,14 @@
                 <article>
                     <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
+                        <div class="form-group">
+                            <label class="form-label" for="tags">تگ ها: </label>
+                            <select class="form-control" name="tags[]" multiple>
+                                @foreach(Tag::all() as $tag)
+                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label class="form-label" for="image">تصویر: </label>
                             <input type="file" class="form-control"
@@ -50,7 +59,6 @@
                                     })
                             </script>
                         </div>
-                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                         <button class="btn btn-success" type="submit">ساختن</button>
                     </form>
                 </article>

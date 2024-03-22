@@ -14,8 +14,10 @@
                         <div class="text-muted fst-italic mb-2">نوشته شده در {{ $post->updated_at }}
                             توسط {{ $user->name }}</div>
                         <!-- Post categories-->
-                        {{--                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>--}}
-                        {{--                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>--}}
+                        @foreach(App\Models\Tag::all() as $tag)
+                        <a class="badge bg-secondary text-decoration-none link-light"
+                           href="{{ route('tag',$tag->name) }}">{{ $tag->name }}</a>
+                        @endforeach
                     </header>
                     <!-- Preview image figure-->
                     <figure class="mb-4"><img class="img-fluid rounded"

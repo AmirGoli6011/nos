@@ -14,27 +14,20 @@
         </div>
     </div>
     <!-- Categories widget-->
-    {{--<div class="card mb-4">
+    <div class="card mb-4">
         <div class="card-header">Categories</div>
         <div class="card-body">
             <div class="row">
-                <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="#!">Web Design</a></li>
-                        <li><a href="#!">HTML</a></li>
-                        <li><a href="#!">Freebies</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="#!">JavaScript</a></li>
-                        <li><a href="#!">CSS</a></li>
-                        <li><a href="#!">Tutorials</a></li>
-                    </ul>
-                </div>
+                @foreach(App\Models\Tag::all() as $tag)
+                    <div class="col-sm-6">
+                        <ul class="list-unstyled mb-0">
+                            <li><a href="{{ route('tag',$tag->name) }}">{{ $tag->name }}</a></li>
+                        </ul>
+                    </div>
+                @endforeach
             </div>
         </div>
-    </div>--}}
+    </div>
     <!-- Side widget-->
     {{--<div class="card mb-4">
         <div class="card-header">Side Widget</div>

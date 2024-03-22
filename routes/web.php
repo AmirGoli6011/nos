@@ -18,14 +18,16 @@ use App\Http\Controllers\HomeController;
 
 Auth::routes();
 
-Route::resource('post', PostController::class);
+Route::resource('post', PostController::class)->middleware('auth');
 
-Route::resource('comment', CommentController::class);
+Route::resource('comment', CommentController::class)->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::post('upload', [PostController::class, 'upload'])->name('post.upload');
-
 Route::get('/search', [HomeController::class, 'search'])->name('search');
+
+Route::get('/tag/{tag}', [HomeController::class, 'tag'])->name('tag');
+
+Route::post('upload', [PostController::class, 'upload'])->name('post.upload');
 
 Route::get('/{slug}', [HomeController::class, 'post'])->name('post');

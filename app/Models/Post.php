@@ -43,4 +43,9 @@ class Post extends Model
 	{
 		return $this->hasMany(Comment::class)->orderBy('id','desc');
 	}
+
+	public function tags()
+	{
+		return $this->belongsToMany(Tag::class);
+	}
 }
