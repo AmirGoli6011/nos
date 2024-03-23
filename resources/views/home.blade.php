@@ -4,8 +4,8 @@
     <header class="py-5 bg-light border-bottom mb-4">
         <div class="container">
             <div class="text-center my-5">
-                <h1 class="fw-bolder">به سایت Nerds Of School خوش امدید!</h1>
-                <p class="lead mb-0">اینجا یک گروه برای حرفه ای های مدرسه است</p>
+                <h1 class="fw-bolder">به سایت Nerds Of School خوش اومدی!</h1>
+                <p class="lead mb-0">اینجا بهترین جا برای تلف کرن وقت است</p>
             </div>
         </div>
     </header>
@@ -22,7 +22,7 @@
                             <!-- Blog post-->
                             <div class="card mb-4">
                                 <a href="/{{ $post->slug }}"><img class="card-img-top"
-                                                                 src="{{ asset($post->image) }}"
+                                                                 src="{{ asset('storage/'.$post->image) }}"
                                                                  alt="{{ $post->title }}"/></a>
                                 <div class="card-body">
                                     <div class="small text-muted">
