@@ -21,8 +21,8 @@
                         <div class="col-lg-6">
                             <!-- Blog post-->
                             <div class="card mb-4">
-                                <a href="{{ $post->slug }}"><img class="card-img-top"
-                                                                 src="{{ asset('storage/'.$post->image) }}"
+                                <a href="/{{ $post->slug }}"><img class="card-img-top"
+                                                                 src="{{ asset($post->image) }}"
                                                                  alt="{{ $post->title }}"/></a>
                                 <div class="card-body">
                                     <div class="small text-muted">
@@ -33,7 +33,7 @@
                                     <p class="card-text">
                                         {!! $post->body !!}
                                     </p>
-                                    <a class="btn btn-primary" href="{{ $post->slug }}">ادامه مطلب ←</a>
+                                    <a class="btn btn-primary" href="/{{ $post->slug }}">ادامه مطلب ←</a>
                                 </div>
                             </div>
                         </div>

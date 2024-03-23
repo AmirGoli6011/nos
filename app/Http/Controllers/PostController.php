@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Models\Comment;
 use App\Models\File;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -43,6 +45,7 @@ class PostController extends Controller
 		if (file_exists($request->file('image')) and array_key_exists('tags', $request->all())) {
 			$image = $request->file('image');
 			$image = $image->store('images');
+			$image = 'storage/'.$image;
 			$post = auth()->user()->posts()->create([
 				'image' => $image,
 				'title' => $request->title,
@@ -52,6 +55,7 @@ class PostController extends Controller
 		} elseif (file_exists($request->file('image'))) {
 			$image = $request->file('image');
 			$image = $image->store('images');
+			$image = 'storage/'.$image;
 			auth()->user()->posts()->create([
 				'image' => $image,
 				'title' => $request->title,
@@ -106,6 +110,7 @@ class PostController extends Controller
 		if (file_exists($request->file('image')) and array_key_exists('tags', $request->all())) {
 			$image = $request->file('image');
 			$image = $image->store('images');
+			$image = 'storage/'.$image;
 			$post->update([
 				'image' => $image,
 				'title' => $request->title,
@@ -115,6 +120,7 @@ class PostController extends Controller
 		} elseif (file_exists($request->file('image'))) {
 			$image = $request->file('image');
 			$image = $image->store('images');
+			$image = 'storage/'.$image;
 			$post->update([
 				'image' => $image,
 				'title' => $request->title,
@@ -144,7 +150,7 @@ class PostController extends Controller
 	public function destroy(Post $post)
 	{
 		$post->delete();
-		return redirect(route('post.index'));
+		return back();
 	}
 
 	public function upload(Request $request)
@@ -152,5 +158,24 @@ class PostController extends Controller
 		$image = $request->file('upload');
 		$image = $image->store('images');
 		return response()->json(['fileName' => $image, 'uploaded' => 1, 'url' => asset('storage/' . $image)]);
+	}
+
+	public function comment_store(Request $request)
+	{
+		$comment = Validator::make($request->all(), [
+			'post_id' => 'required',
+			'comment' => 'required',
+		])->validated();
+		auth()->user()->comments()->create([
+			'post_id' => $comment['post_id'],
+			'comment' => $comment['comment'],
+		]);
+		return back();
+	}
+
+	public function comment_destroy(Comment $comment)
+	{
+		$comment->delete();
+		return back();
 	}
 }

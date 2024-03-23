@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Nerd Of School</title>
+    <title>Nerds Of School</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}"/>
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -26,11 +26,47 @@
                 <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">خانه</a></li>
                 @auth()
                     <li class="nav-item"><a class="nav-link" href="{{ route('post.create') }}">ساخت پست</a></li>
-                    <li class="nav-item"><a class="nav-link active"
-                                            href="{{ route('post.index') }}">{{ auth()->user()->name }}</a></li>
-                    <li class="nav-item"><img class="img-fluid rounded"
-                                              style="width: 70px"
-                                              src="{{ asset('storage/'.auth()->user()->avatar) }}"></li>
+                    @if(auth()->user()->id === 1)
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ route('admin.users') }}">
+                                یوزر ها
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ route('admin.comments') }}">
+                                کامنت ها
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active"
+                               href="{{ route('admin.posts') }}">
+                                {{ auth()->user()->name }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.posts') }}">
+                                <img class="img-fluid rounded"
+                                     style="width: 70px"
+                                     src="{{ asset(auth()->user()->avatar) }}">
+                            </a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link active"
+                               href="{{ route('post.index') }}">
+                                {{ auth()->user()->name }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('post.index') }}">
+                                <img class="img-fluid rounded"
+                                     style="width: 70px"
+                                     src="{{ asset(auth()->user()->avatar) }}">
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">خروج</a></li>
                 @else
                     <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">ثبت نام</a></li>

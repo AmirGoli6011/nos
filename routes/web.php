@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -20,14 +21,31 @@ Auth::routes();
 
 Route::resource('post', PostController::class)->middleware('auth');
 
-Route::resource('comment', CommentController::class)->middleware('auth');
+Route::prefix('admin')->group(function () {
+	Route::get('/users', [AdminController::class, 'users'])->name('admin.users')
+		->middleware('admin');
+
+	Route::get('/posts', [AdminController::class, 'posts'])->name('admin.posts')
+		->middleware('admin');
+
+	Route::get('/comments', [AdminController::class, 'comments'])->name('admin.comments')
+		->middleware('admin');
+
+	Route::get('/user/{user}', [AdminController::class, 'user'])->name('admin.user')
+		->middleware('admin');
+});
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
-Route::get('/tag/{tag}', [HomeController::class, 'tag'])->name('tag');
+Route::post('/comment', [PostController::class, 'comment_store'])->name('comment.store')
+	->middleware('auth');
+
+Route::delete('/comment/{comment}', [PostController::class, 'comment_destroy'])->name('comment.destroy');
 
 Route::post('upload', [PostController::class, 'upload'])->name('post.upload');
+
+Route::get('/tag/{tag}', [HomeController::class, 'tag'])->name('tag');
 
 Route::get('/{slug}', [HomeController::class, 'post'])->name('post');

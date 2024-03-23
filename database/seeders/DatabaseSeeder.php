@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 	public function run()
 	{
 		User::factory()->create([
-			'avatar' => 'avatar/bkCBwHMsuUQ38J0HLCt2K9Nu8mD1tfqTL7ozuRkT.jpg',
+			'avatar' => 'storage/avatar/Goli.png',
 			'name' => 'admin',
 			'email' => 'admin@gmail.com',
 			'password' => '$2y$10$wWle/pwRASHm/r1AgFstMexmbQL6OhCCuLoTAz99W8aJG8aq.jV8O',

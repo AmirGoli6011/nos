@@ -66,6 +66,7 @@ class RegisterController extends Controller
     {
 		$avatar = $data['avatar'];
 		$avatar = $avatar->store('avatar');
+		$avatar = 'storage/'.$avatar;
         return User::create([
             'avatar' => $avatar,
             'name' => $data['name'],

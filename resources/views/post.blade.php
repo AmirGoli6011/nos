@@ -11,17 +11,20 @@
                         <!-- Post title-->
                         <h1 class="fw-bolder mb-1">{{ $post->title }}</h1>
                         <!-- Post meta content-->
-                        <div class="text-muted fst-italic mb-2">نوشته شده در {{ $post->updated_at }}
-                            توسط {{ $user->name }}</div>
+                        <div class="text-muted fst-italic mb-2">
+                            نوشته شده در{{ $post->updated_at }}
+                            <br>
+                            توسط {{ $user->name }}
+                        </div>
                         <!-- Post categories-->
                         @foreach(App\Models\Tag::all() as $tag)
-                        <a class="badge bg-secondary text-decoration-none link-light"
-                           href="{{ route('tag',$tag->name) }}">{{ $tag->name }}</a>
+                            <a class="badge bg-secondary text-decoration-none link-light"
+                               href="{{ route('tag',$tag->name) }}">{{ $tag->name }}</a>
                         @endforeach
                     </header>
                     <!-- Preview image figure-->
                     <figure class="mb-4"><img class="img-fluid rounded"
-                                              src="{{ asset('storage/'.$post->image) }}" alt="{{ $post->title }}"/>
+                                              src="{{ asset($post->image) }}" alt="{{ $post->title }}"/>
                     </figure>
                     <!-- Post content-->
                     <section class="mb-5">
@@ -38,7 +41,6 @@
                             <!-- Comment form-->
                             <form class="mb-4" action="{{ route('comment.store') }}" method="post">
                                 @csrf
-                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <input type="hidden" name="post_id" value="{{ $post->id }}">
                                 <textarea id="comment" name="comment" class="form-control" rows="3"
                                           placeholder="Join the discussion and leave a comment!"></textarea>
@@ -63,19 +65,24 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0"><img class="rounded-circle"
                                                                     style="width: 70px"
-                                                                    src="{{ asset('storage/'.$comment->user->avatar) }}"
+                                                                    src="{{ asset($comment->user->avatar) }}"
                                                                     alt="{{ $comment->user->name }}"/></div>
                                     <div class="ms-3">
                                         <div class="fw-bold">{{ $comment->user->name }}</div>
                                         {!! $comment->comment !!}
                                     </div>
-                                    @if($post->user->id === auth()->user()->id)
-                                        <form action="{{ route('comment.destroy',$comment->id) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">حذف</button>
-                                        </form>
-                                    @endif
+                                    <div class="btn btn-group">
+                                        @auth()
+                                            @if($post->user->id === auth()->user()->id or auth()->user()->id === 1 or auth()->user()->id === $comment->user->id)
+                                                <form action="{{ route('comment.destroy',$comment->id) }}"
+                                                      method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">حذف</button>
+                                                </form>
+                                            @endif
+                                        @endauth
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
