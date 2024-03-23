@@ -22,18 +22,16 @@
                             <!-- Blog post-->
                             <div class="card mb-4">
                                 <a href="{{ $post->slug }}"><img class="card-img-top"
-                                                                 src="{{ asset('storage/'.$post->image) }}"
+                                                                 src="{{ asset($post->image) }}"
                                                                  alt="{{ $post->title }}"/></a>
                                 <div class="card-body">
                                     <div class="small text-muted">
                                         نوشته شده در {{ $post->updated_at }}
                                         توسط {{ $post->user->name }}
                                     </div>
-                                    <h2 class="card-title h4">{{ $post->title }}</h2>
-                                    <p class="card-text">
-                                        {!! $post->body !!}
-                                    </p>
-                                    <a class="btn btn-primary" href="{{ $post->slug }}">ادامه مطلب ←</a>
+                                    <a href="{{ $post->slug }}">
+                                        <h2 class="card-title h4">{{ $post->title }}</h2>
+                                    </a>
                                     <form action="{{ route('post.destroy',$post->id) }}" method="post">
                                         <a class="btn btn-success"
                                            href="{{ route('post.edit',$post->id) }}">ویرایش</a>

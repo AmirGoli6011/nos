@@ -5,7 +5,7 @@
         <div class="container">
             <div class="text-center my-5">
                 <h1 class="fw-bolder">به سایت Nerds Of School خوش اومدی!</h1>
-                <p class="lead mb-0">اینجا بهترین جا برای تلف کرن وقت است</p>
+                <p class="lead mb-0">بهترین جا برای تلف کرن وقت است</p>
             </div>
         </div>
     </header>
@@ -22,18 +22,16 @@
                             <!-- Blog post-->
                             <div class="card mb-4">
                                 <a href="/{{ $post->slug }}"><img class="card-img-top"
-                                                                 src="{{ asset('storage/'.$post->image) }}"
-                                                                 alt="{{ $post->title }}"/></a>
+                                                                  src="{{ asset($post->image) }}"
+                                                                  alt="{{ $post->title }}"/></a>
                                 <div class="card-body">
                                     <div class="small text-muted">
                                         نوشته شده در {{ $post->updated_at }}
                                         توسط {{ $post->user->name }}
                                     </div>
-                                    <h2 class="card-title h4">{{ $post->title }}</h2>
-                                    <p class="card-text">
-                                        {!! $post->body !!}
-                                    </p>
-                                    <a class="btn btn-primary" href="/{{ $post->slug }}">ادامه مطلب ←</a>
+                                    <a href="/{{ $post->slug }}">
+                                        <h2 class="card-title h4">{{ $post->title }}</h2>
+                                    </a>
                                 </div>
                             </div>
                         </div>

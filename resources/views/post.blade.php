@@ -51,9 +51,6 @@
                                                 content: 'ar'
                                             }
                                         })
-                                        .then(editor => {
-                                            console.log(editor);
-                                        })
                                         .catch(error => {
                                             console.error(error);
                                         })
@@ -63,16 +60,19 @@
                             <!-- Single comment-->
                             @foreach($comments as $comment)
                                 <div class="d-flex">
-                                    <div class="flex-shrink-0"><img class="rounded-circle"
+                                    <div class="flex-shrink-0"><img class="img-fluid rounded"
                                                                     style="width: 70px"
                                                                     src="{{ asset($comment->user->avatar) }}"
                                                                     alt="{{ $comment->user->name }}"/></div>
                                     <div class="ms-3">
                                         <div class="fw-bold">{{ $comment->user->name }}</div>
                                         {!! $comment->comment !!}
+                                        <script>
+                                            $('img').addClass('img-fluid rounded')
+                                        </script>
                                     </div>
-                                    <div class="btn btn-group">
-                                        @auth()
+                                    @auth()
+                                        <div class="btn btn-group">
                                             @if($post->user->id === auth()->user()->id or auth()->user()->id === 1 or auth()->user()->id === $comment->user->id)
                                                 <form action="{{ route('comment.destroy',$comment->id) }}"
                                                       method="post">
@@ -81,8 +81,8 @@
                                                     <button type="submit" class="btn btn-danger">حذف</button>
                                                 </form>
                                             @endif
-                                        @endauth
-                                    </div>
+                                        </div>
+                                    @endauth
                                 </div>
                             @endforeach
                         </div>

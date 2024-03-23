@@ -16,7 +16,7 @@ class CheckAdmin
 	 */
 	public function handle(Request $request, Closure $next)
 	{
-		if (auth()->user()->id === 1) {
+		if (auth()->user() && auth()->user()->id === 1) {
 			return $next($request);
 		}
 		return abort(404);
