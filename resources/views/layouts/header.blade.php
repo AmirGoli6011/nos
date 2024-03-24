@@ -12,6 +12,7 @@
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
     <script src="{{ asset('js/ckeditor.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
 </head>
 <body>
 <!-- Responsive navbar-->
@@ -24,8 +25,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 @auth()
-                    <li class="nav-item"><a class="nav-link" href="{{ route('post.create') }}">ساخت پست</a></li>
                     @if(auth()->user()->id === 1)
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ route('admin.comments') }}">
+                                کامنت ها
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{{ route('admin.users') }}">
@@ -34,39 +40,40 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                               href="{{ route('admin.comments') }}">
-                                کامنت ها
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active"
                                href="{{ route('admin.posts') }}">
-                                {{ auth()->user()->name }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.posts') }}">
-                                <img class="img-fluid rounded"
-                                     style="width: 70px"
-                                     src="{{ asset(auth()->user()->avatar) }}">
-                            </a>
-                        </li>
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link active"
-                               href="{{ route('post.index') }}">
-                                {{ auth()->user()->name }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('post.index') }}">
-                                <img class="img-fluid rounded"
-                                     style="width: 70px"
-                                     src="{{ asset(auth()->user()->avatar) }}">
+                                پست ها
                             </a>
                         </li>
                     @endif
-                    <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">خروج</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('post.create') }}">
+                            ساخت پست
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{{ route('favorite.index') }}">
+                            علاقه مندی ها
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           href="{{ route('post.index') }}">
+                            {{ auth()->user()->name }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('post.index') }}">
+                            <img class="img-fluid rounded"
+                                 style="width: 70px"
+                                 src="{{ asset(auth()->user()->avatar) }}">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout') }}">
+                            خروج
+                        </a>
+                    </li>
                 @else
                     <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">ثبت نام</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">ورود</a></li>

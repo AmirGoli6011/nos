@@ -32,6 +32,9 @@
                                     <a href="{{ $post->slug }}">
                                         <h2 class="card-title h4">{{ $post->title }}</h2>
                                     </a>
+                                    <p>
+                                        {{ $post->favoriters()->count() }} نفر افزودن به علاقه مندی ها
+                                    </p>
                                     <form action="{{ route('post.destroy',$post->id) }}" method="post">
                                         <a class="btn btn-success"
                                            href="{{ route('post.edit',$post->id) }}">ویرایش</a>

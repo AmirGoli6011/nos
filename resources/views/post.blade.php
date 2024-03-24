@@ -29,9 +29,6 @@
                     <!-- Post content-->
                     <section class="mb-5">
                         {!! $post->body !!}
-                        <script>
-                            $('img').addClass('img-fluid rounded')
-                        </script>
                     </section>
                 </article>
                 <!-- Comments section-->
@@ -67,9 +64,6 @@
                                     <div class="ms-3">
                                         <div class="fw-bold">{{ $comment->user->name }}</div>
                                         {!! $comment->comment !!}
-                                        <script>
-                                            $('img').addClass('img-fluid rounded')
-                                        </script>
                                     </div>
                                     @auth()
                                         <div class="btn btn-group">

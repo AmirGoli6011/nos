@@ -1,6 +1,3 @@
-// ClassicEditor
-//     .create(document.querySelector('#body'))
-//
-//     .catch(error => {
-//         console.error(error);
-//     });
+$(document).ready(function () {
+    $('img').addClass('img-fluid rounded')
+})

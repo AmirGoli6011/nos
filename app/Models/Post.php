@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
 
 class Post extends Model
 {
-	use Sluggable;
-	use HasFactory;
+	use Sluggable, HasFactory, Favoriteable;
 
 	protected $fillable = [
 		'user_id',
@@ -41,7 +41,7 @@ class Post extends Model
 
 	public function comments()
 	{
-		return $this->hasMany(Comment::class)->orderBy('id','desc');
+		return $this->hasMany(Comment::class)->orderBy('id', 'desc');
 	}
 
 	public function tags()
