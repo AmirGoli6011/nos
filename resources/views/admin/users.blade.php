@@ -36,6 +36,11 @@
                                         <img class="img-fluid rounded" style="width: 70px"
                                              src="{{ asset($user->avatar) }}">
                                     </a>
+                                    <form action="{{ route('admin.user_destroy',$user->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">حذف</button>
+                                    </form>
                                 </td>
                             </tr>
                             </tbody>

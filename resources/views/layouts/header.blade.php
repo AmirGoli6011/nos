@@ -10,7 +10,11 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
-    <script src="{{ asset('js/ckeditor.js') }}"></script>
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+    <link href="{{ asset('js/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css') }}"
+          rel="stylesheet"/>
+    <script src="{{ asset('js/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js') }}"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
 </head>
@@ -28,8 +32,8 @@
                     @if(auth()->user()->id === 1)
                         <li class="nav-item">
                             <a class="nav-link"
-                               href="{{ route('admin.comments') }}">
-                                کامنت ها
+                               href="{{ route('admin.posts') }}">
+                                پست ها
                             </a>
                         </li>
                         <li class="nav-item">
@@ -40,8 +44,19 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                               href="{{ route('admin.posts') }}">
-                                پست ها
+                               href="{{ route('admin.comments') }}">
+                                کامنت ها
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ route('tag.index') }}">
+                                تگ ها
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('tag.create') }}">
+                                ساخت تگ
                             </a>
                         </li>
                     @endif

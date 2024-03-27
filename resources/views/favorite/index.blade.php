@@ -21,7 +21,7 @@
                         <div class="col-lg-6">
                             <!-- Blog post-->
                             <div class="card mb-4">
-                                <a href="{{ $post->slug }}"><img class="card-img-top"
+                                <a href="{{ route('post.show',$post->slug) }}"><img class="card-img-top"
                                                                  src="{{ asset($post->image) }}"
                                                                  alt="{{ $post->title }}"/></a>
                                 <div class="card-body">
@@ -29,9 +29,12 @@
                                         نوشته شده در {{ $post->updated_at }}
                                         توسط {{ $post->user->name }}
                                     </div>
-                                    <a href="{{ $post->slug }}">
+                                    <a href="{{ route('post.show',$post->slug) }}">
                                         <h2 class="card-title h4">{{ $post->title }}</h2>
                                     </a>
+                                    <p>
+                                        {!! Str::limit(strip_tags($post->body)) !!}
+                                    </p>
                                     <form action="{{ route('favorite.store') }}" method="post">
                                         @csrf
                                         <input type="hidden" name="user" value="{{ auth()->user()->id }}">

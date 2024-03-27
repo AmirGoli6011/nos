@@ -19,13 +19,18 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="image">تصویر: </label>
-                            <input type="file" class="form-control"
+                            <input type="file" class="form-control @error('image') is-invalid @enderror"
                                    name="image" id="image">
+                            @error('image')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="title">عنوان: </label>
                             <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                   name="title" id="title">
+                                   name="title" id="title" value="{{ old('title') }}">
                             @error('title')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -35,28 +40,33 @@
                         <div class="form-group">
                             <label class="form-label" for="title">بدنه: </label>
                             <textarea class="form-control @error('body') is-invalid @enderror"
-                                      name="body" id="body" rows="10"></textarea>
+                                      name="body" id="body" rows="10">
+                                {!! old('body') !!}
+                            </textarea>
                             @error('body')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                             @enderror
-                            <script>
-                                ClassicEditor
-                                    .create(document.querySelector('#body'), {
-                                        ckfinder: {
-                                            uploadUrl: '{{route('post.upload').'?_token='.csrf_token()}}'
-                                        },
-                                        language: {
-                                            content: 'ar'
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error(error);
-                                    })
-                            </script>
                         </div>
-                        <button class="btn btn-success" type="submit">ساختن</button>
+                        <button id="submit" class="btn btn-success" type="submit">ساختن</button>
+                        <script>
+                            let editor = CKEDITOR.replace('body', {
+                                filebrowserUploadUrl: '{{ route("post.upload", ["_token" => csrf_token()]) }}',
+                            })
+                            editor.on('change', function (evt) {
+                                let title = $('#title').val();
+                                $.post(
+                                    '{{ route('post.move') }}',
+                                    {
+                                        title:title
+                                    },
+                                    function (res) {
+                                        console.log(res)
+                                    }
+                                )
+                            });
+                        </script>
                     </form>
                 </article>
             </div>

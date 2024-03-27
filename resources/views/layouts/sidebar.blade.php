@@ -21,7 +21,7 @@
                 @foreach(App\Models\Tag::all() as $tag)
                     <div class="col-sm-6">
                         <ul class="list-unstyled mb-0">
-                            <li><a href="{{ route('tag',$tag->name) }}">{{ $tag->name }}</a></li>
+                            <li><a href="{{ route('tag.show',$tag->name) }}">{{ $tag->name }}</a></li>
                         </ul>
                     </div>
                 @endforeach

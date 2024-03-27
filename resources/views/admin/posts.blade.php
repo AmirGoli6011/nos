@@ -42,13 +42,13 @@
                                     <p>
                                         {{ $post->title }}
                                     </p>
-                                    <a href="/{{ $post->slug }}">
+                                    <a href="{{ route('post.show',$post->slug) }}">
                                         <img class="img-fluid rounded" style="width: 70px"
                                              src="{{ asset($post->image) }}">
                                     </a>
-                                    <form action="{{ route('post.destroy',$post->id) }}" method="post">
+                                    <form action="{{ route('post.destroy',$post->slug) }}" method="post">
                                         <a class="btn btn-success"
-                                           href="{{ route('post.edit',$post->id) }}">ویرایش</a>
+                                           href="{{ route('post.edit',$post->slug) }}">ویرایش</a>
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">حذف</button>

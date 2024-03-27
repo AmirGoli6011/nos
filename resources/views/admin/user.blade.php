@@ -47,8 +47,8 @@
                                     <p>
                                         {{ $post->title }}
                                     </p>
-                                    <a href="/{{ $post->slug }}" class="btn btn-success">نمایش پست</a>
-                                    <form action="{{ route('post.destroy',$post->id) }}"
+                                    <a href="{{ route('post.show',$post->slug) }}" class="btn btn-success">نمایش پست</a>
+                                    <form action="{{ route('post.destroy',$post->slug) }}"
                                           method="post">
                                         @csrf
                                         @method('DELETE')

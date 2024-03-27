@@ -53,6 +53,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+			'avatar' => 'image|mimes:jpg,png,jpeg|max:2048',
         ]);
     }
 
@@ -65,7 +66,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 		$avatar = $data['avatar'];
-		$avatar = $avatar->store('avatar');
+		$avatar = $avatar->store('avatars');
 		$avatar = 'storage/'.$avatar;
         return User::create([
             'avatar' => $avatar,

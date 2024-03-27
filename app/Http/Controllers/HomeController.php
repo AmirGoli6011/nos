@@ -15,14 +15,6 @@ class HomeController extends Controller
 		return view('home', compact('posts'));
 	}
 
-	public function post($slug)
-	{
-		$post = Post::where('slug', $slug)->firstOrfail();
-		$user = $post->user;
-		$comments = $post->comments;
-		return view('post', compact(['post', 'user', 'comments']));
-	}
-
 	public function search(Request $request)
 	{
 		$search = $request->all('search');
@@ -30,12 +22,6 @@ class HomeController extends Controller
 			->orWhere('slug', 'regexp', $search)
 			->orWhere('body', 'regexp', $search)
 			->get();
-		return view('home', compact('posts'));
-	}
-
-	public function tag($tag)
-	{
-		$posts = Tag::where('name', $tag)->first()->posts;
 		return view('home', compact('posts'));
 	}
 }

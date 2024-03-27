@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostRequest;
-use App\Models\Comment;
-use App\Models\File;
 use App\Models\Post;
-use App\Models\Tag;
+use File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use function Illuminate\Events\queueable;
 
 class PostController extends Controller
 {
@@ -40,37 +38,43 @@ class PostController extends Controller
 	 * @param \Illuminate\Http\Request $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(PostRequest $request)
+	public function store(Request $request)
 	{
-		if (file_exists($request->file('image')) and array_key_exists('tags', $request->all())) {
-			$image = $request->file('image');
-			$image = $image->store('images');
-			$image = 'storage/'.$image;
+		$request = $request->validate([
+			'title' => 'required|max:20|unique:App\Models\Post',
+			'body' => 'required',
+			'image' => 'image|mimes:jpg,png,jpeg|max:2048',
+			'tags' => 'string'
+		]);
+		if (array_key_exists('image', $request) and array_key_exists('tags', $request)) {
+			$image = $request['image'];
+			$image = $image->store($request['title']);
+			$image = 'storage/' . $image;
 			$post = auth()->user()->posts()->create([
 				'image' => $image,
-				'title' => $request->title,
-				'body' => $request->body,
+				'title' => $request['title'],
+				'body' => $request['body'],
 			]);
-			$post->tags()->attach($request->tags);
-		} elseif (file_exists($request->file('image'))) {
-			$image = $request->file('image');
-			$image = $image->store('images');
-			$image = 'storage/'.$image;
+			$post->tags()->attach($request['tags']);
+		} elseif (array_key_exists('image', $request)) {
+			$image = $request['image'];
+			$image = $image->store($request['title']);
+			$image = 'storage/' . $image;
 			auth()->user()->posts()->create([
 				'image' => $image,
-				'title' => $request->title,
-				'body' => $request->body,
+				'title' => $request['title'],
+				'body' => $request['body'],
 			]);
-		} elseif (array_key_exists('tags', $request->all())) {
+		} elseif (array_key_exists('tags', $request)) {
 			$post = auth()->user()->posts()->create([
-				'title' => $request->title,
-				'body' => $request->body,
+				'title' => $request['title'],
+				'body' => $request['body'],
 			]);
-			$post->tags()->attach($request->tags);
+			$post->tags()->attach($request['tags']);
 		} else {
 			auth()->user()->posts()->create([
-				'title' => $request->title,
-				'body' => $request->body,
+				'title' => $request['title'],
+				'body' => $request['body'],
 			]);
 		}
 		return redirect(route('post.index'));
@@ -84,7 +88,9 @@ class PostController extends Controller
 	 */
 	public function show(Post $post)
 	{
-		//
+		$user = $post->user;
+		$comments = $post->comments;
+		return view('post.show', compact(['post', 'user', 'comments']));
 	}
 
 	/**
@@ -95,7 +101,7 @@ class PostController extends Controller
 	 */
 	public function edit(Post $post)
 	{
-		return view('post.edit', compact('post', compact('post')));
+		return view('post.edit', compact('post'));
 	}
 
 	/**
@@ -105,37 +111,47 @@ class PostController extends Controller
 	 * @param \App\Models\Post $post
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(PostRequest $request, Post $post)
+	public function update(Request $request, Post $post)
 	{
-		if (file_exists($request->file('image')) and array_key_exists('tags', $request->all())) {
-			$image = $request->file('image');
-			$image = $image->store('images');
-			$image = 'storage/'.$image;
+		$request = $request->validate([
+			'title' => 'required|max:20',
+			'body' => 'required',
+			'image' => 'image|mimes:jpg,png,jpeg|max:2048',
+			'tags' => 'string'
+		]);
+		if (array_key_exists('image', $request) and array_key_exists('tags', $request)) {
+			$file = Storage::path($post->image);
+			unlink($file);
+			$image = $request['image'];
+			$image = $image->store($request['title']);
+			$image = 'storage/' . $image;
 			$post->update([
 				'image' => $image,
-				'title' => $request->title,
-				'body' => $request->body,
+				'title' => $request['title'],
+				'body' => $request['body'],
 			]);
-			$post->tags()->sync($request->tags);
-		} elseif (file_exists($request->file('image'))) {
-			$image = $request->file('image');
-			$image = $image->store('images');
-			$image = 'storage/'.$image;
+			$post->tags()->sync($request['tags']);
+		} elseif (array_key_exists('image', $request)) {
+			$file = Storage::path($post->image);
+			unlink($file);
+			$image = $request['image'];
+			$image = $image->store($request['title']);
+			$image = 'storage/' . $image;
 			$post->update([
 				'image' => $image,
-				'title' => $request->title,
-				'body' => $request->body,
+				'title' => $request['title'],
+				'body' => $request['body'],
 			]);
-		} elseif (array_key_exists('tags', $request->all())) {
+		} elseif (array_key_exists('tags', $request)) {
 			$post->update([
-				'title' => $request->title,
-				'body' => $request->body,
+				'title' => $request['title'],
+				'body' => $request['body'],
 			]);
-			$post->tags()->sync($request->input('tags'));
+			$post->tags()->sync($request['tags']);
 		} else {
 			$post->update([
-				'title' => $request->title,
-				'body' => $request->body,
+				'title' => $request['title'],
+				'body' => $request['body'],
 			]);
 		}
 		return redirect(route('post.index'));
@@ -149,6 +165,14 @@ class PostController extends Controller
 	 */
 	public function destroy(Post $post)
 	{
+		$path = Storage::path($post->title);
+		if (is_dir($path)) {
+			$files = glob($path . '/*');
+				foreach ($files as $file) {
+					unlink($file);
+				}
+			rmdir($path);
+		}
 		$post->delete();
 		return back();
 	}
@@ -156,26 +180,28 @@ class PostController extends Controller
 	public function upload(Request $request)
 	{
 		$image = $request->file('upload');
-		$image = $image->store('images');
+		$image = $image->store('');
 		return response()->json(['fileName' => $image, 'uploaded' => 1, 'url' => asset('storage/' . $image)]);
 	}
 
-	public function comment_store(Request $request)
+	public function move(Request $request)
 	{
-		$comment = Validator::make($request->all(), [
-			'post_id' => 'required',
-			'comment' => 'required',
-		])->validated();
-		auth()->user()->comments()->create([
-			'post_id' => $comment['post_id'],
-			'comment' => $comment['comment'],
-		]);
-		return back();
-	}
-
-	public function comment_destroy(Comment $comment)
-	{
-		$comment->delete();
-		return back();
+		$title = $request->title;
+		$path = Storage::path($title);
+		if (!is_dir($path)) {
+			mkdir($path);
+			$files = Storage::files();
+			foreach ($files as $file) {
+				$filename = $file;
+				$file = Storage::path($file);
+				rename($file, $path . '\\' . $filename);
+			}
+		}
+		$files = Storage::files();
+		foreach ($files as $file) {
+			$filename = $file;
+			$file = Storage::path($file);
+			rename($file, $path . '\\' . $filename);
+		}
 	}
 }

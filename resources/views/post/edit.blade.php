@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <!-- Post content-->
                 <article>
-                    <form action="{{ route('post.update',$post->id) }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('post.update',$post->slug) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -14,14 +14,21 @@
                             <select class="form-control" name="tags[]" multiple>
                                 @foreach(\App\Models\Tag::all() as $tag)
                                     <option value="{{ $tag->id }}"
-                                            {{ in_array($tag->id,$post->tags->pluck('id')->toArray())?'selected':'' }}>
-                                        {{ $tag->name }}</option>
+                                            {{ in_array($tag->id,$post->tags->pluck('id')->toArray())?'selected':''}}>
+                                        {{ $tag->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="image">تصویر: </label>
-                            <input type="file" class="form-control" name="image" id="image">
+                            <input type="file" class="form-control @error('image') is-invalid @enderror"
+                                   name="image" id="image">
+                            @error('image')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="title">عنوان: </label>
@@ -42,22 +49,13 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                             @enderror
-                            <script>
-                                ClassicEditor
-                                    .create(document.querySelector('#body'), {
-                                        ckfinder: {
-                                            uploadUrl: '{{route('post.upload').'?_token='.csrf_token()}}'
-                                        },
-                                        language: {
-                                            content: 'ar'
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error(error);
-                                    })
-                            </script>
                         </div>
                         <button class="btn btn-success" type="submit">به روز رسانی</button>
+                        <script>
+                            CKEDITOR.replace('body', {
+                                filebrowserUploadUrl: '{{ route("post.upload", ["_token" => csrf_token()]) }}',
+                            })
+                        </script>
                     </form>
                 </article>
             </div>

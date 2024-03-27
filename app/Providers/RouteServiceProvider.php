@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -49,9 +50,12 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
 
-		/*Route::bind('slug',function ($slug){
-			return $post = Post::where('slug',$slug)->firstOrfail();
-		});*/
+		Route::bind('post',function ($post){
+			return Post::where('slug',$post)->firstOrfail();
+		});
+		Route::bind('tag',function ($tag){
+			return Tag::where('name',$tag)->firstOrfail();
+		});
     }
 
     /**

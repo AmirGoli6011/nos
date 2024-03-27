@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -19,6 +21,13 @@ class AdminController extends Controller
 	{
 		$users = User::orderBy('id', 'desc')->get();
 		return view('admin.users', compact('users'));
+	}
+
+	public function user_destroy(User $user)
+	{
+		unlink(Storage::path(str_replace('storage/','',$user->avatar)));
+		$user->delete();
+		return back();
 	}
 	public function user($user)
 	{
