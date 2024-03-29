@@ -52,8 +52,18 @@
                         </div>
                         <button class="btn btn-success" type="submit">به روز رسانی</button>
                         <script>
+                            let title;
+                            $('#title').keyup(function () {
+                                title = $(this).val();
+                                $.post(
+                                    '{{ route('post.title') }}',
+                                    {
+                                        title: title
+                                    },
+                                )
+                            })
                             CKEDITOR.replace('body', {
-                                filebrowserUploadUrl: '{{ route("post.upload", ["_token" => csrf_token()]) }}',
+                                filebrowserUploadUrl: '{{ route('post.upload',["_token" => csrf_token()]) }}'
                             })
                         </script>
                     </form>

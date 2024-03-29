@@ -16,7 +16,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'insert' },
 		{ name: 'forms' },
 		{ name: 'tools' },
-		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+		// { name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'others' },
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
@@ -32,8 +32,17 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// config.skin='office2013';
 
+	config.toolbarCanCollapse = true;
+
 	config.extraPlugins= [
 		'codesnippet',
+        'image',
+        // "easyimage",
+	];
+
+	config.removePlugins = [
+        'easyimage',
+        // 'image',
 	];
 
 	// Remove some buttons provided by the standard plugins, which are

@@ -49,23 +49,21 @@
                                     </span>
                             @enderror
                         </div>
-                        <button id="submit" class="btn btn-success" type="submit">ساختن</button>
+                        <button class="btn btn-success" type="submit">ساختن</button>
                         <script>
-                            let editor = CKEDITOR.replace('body', {
-                                filebrowserUploadUrl: '{{ route("post.upload", ["_token" => csrf_token()]) }}',
-                            })
-                            editor.on('change', function (evt) {
-                                let title = $('#title').val();
+                            let title;
+                            $('#title').keyup(function () {
+                                title = $(this).val();
                                 $.post(
-                                    '{{ route('post.move') }}',
+                                    '{{ route('post.title') }}',
                                     {
-                                        title:title
+                                        title: title
                                     },
-                                    function (res) {
-                                        console.log(res)
-                                    }
                                 )
-                            });
+                            })
+                            CKEDITOR.replace('body', {
+                                filebrowserUploadUrl: '{{ route('post.upload',["_token" => csrf_token()]) }}'
+                            })
                         </script>
                     </form>
                 </article>

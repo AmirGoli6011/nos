@@ -43,8 +43,7 @@ class PostController extends Controller
 		$request = $request->validate([
 			'title' => 'required|max:20|unique:App\Models\Post',
 			'body' => 'required',
-			'image' => 'image|mimes:jpg,png,jpeg|max:2048',
-			'tags' => 'string'
+			'image' => 'image|mimes:jpg,png,jpeg',
 		]);
 		if (array_key_exists('image', $request) and array_key_exists('tags', $request)) {
 			$image = $request['image'];
@@ -117,7 +116,6 @@ class PostController extends Controller
 			'title' => 'required|max:20',
 			'body' => 'required',
 			'image' => 'image|mimes:jpg,png,jpeg|max:2048',
-			'tags' => 'string'
 		]);
 		if (array_key_exists('image', $request) and array_key_exists('tags', $request)) {
 			$file = Storage::path($post->image);
@@ -168,9 +166,9 @@ class PostController extends Controller
 		$path = Storage::path($post->title);
 		if (is_dir($path)) {
 			$files = glob($path . '/*');
-				foreach ($files as $file) {
-					unlink($file);
-				}
+			foreach ($files as $file) {
+				unlink($file);
+			}
 			rmdir($path);
 		}
 		$post->delete();
@@ -179,29 +177,21 @@ class PostController extends Controller
 
 	public function upload(Request $request)
 	{
+		if (array_key_exists('title', $request)) {
+			$title = $request->title;
+		} else {
+			session_start();
+			$title = $_SESSION['title'];
+		}
 		$image = $request->file('upload');
-		$image = $image->store('');
+		$image = $image->store($title);
 		return response()->json(['fileName' => $image, 'uploaded' => 1, 'url' => asset('storage/' . $image)]);
 	}
 
-	public function move(Request $request)
+	public function title(Request $request)
 	{
+		session_start();
 		$title = $request->title;
-		$path = Storage::path($title);
-		if (!is_dir($path)) {
-			mkdir($path);
-			$files = Storage::files();
-			foreach ($files as $file) {
-				$filename = $file;
-				$file = Storage::path($file);
-				rename($file, $path . '\\' . $filename);
-			}
-		}
-		$files = Storage::files();
-		foreach ($files as $file) {
-			$filename = $file;
-			$file = Storage::path($file);
-			rename($file, $path . '\\' . $filename);
-		}
+		$_SESSION['title'] = $title;
 	}
 }

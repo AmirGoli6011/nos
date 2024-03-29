@@ -9,7 +9,7 @@
                     <!-- Post header-->
                     <header class="mb-4">
                         <!-- Post title-->
-                        <h1 class="fw-bolder mb-1">{{ $post->title }}</h1>
+                        <h1 class="fw-bolder mb-1" id="title">{{ $post->title }}</h1>
                         <!-- Post meta content-->
                         <div class="text-muted fst-italic mb-2">
                             نوشته شده در{{ $post->updated_at }}
@@ -44,7 +44,7 @@
                                 <button type="submit" class="btn btn-success">ارسال</button>
                                 <script>
                                     CKEDITOR.replace('comment', {
-                                        filebrowserUploadUrl: '{{ route("post.upload", ["_token" => csrf_token()]) }}',
+                                        filebrowserUploadUrl: '{{ route("post.upload",['title'=>$post->title,"_token" => csrf_token()])}}',
                                     })
                                 </script>
                             </form>

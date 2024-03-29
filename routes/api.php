@@ -23,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/upload',[PostController::class,'upload'])->name('post.upload');
 
 Route::post('/move',[PostController::class,'move'])->name('post.move');
+
+Route::post('/title',[PostController::class,'title'])->name('post.title');
