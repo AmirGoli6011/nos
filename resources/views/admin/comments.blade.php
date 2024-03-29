@@ -41,16 +41,18 @@
                                 </td>
                                 <td>{!! $comment->comment !!}</td>
                                 <td>
-                                    <p>
-                                        {{ $comment->post->title }}
-                                    </p>
-                                    <a href="/{{ $comment->post->slug }}">
-                                        <img class="img-fluid rounded" style="width: 70px"
-                                             src="{{ asset($comment->post->image) }}">
+                                    <a href="{{ route('post.show',$comment->post->slug) }}">
+                                        <p>
+                                            {{ $comment->post->title }}
+                                        </p>
                                     </a>
-                                    <form action="{{ route('post.destroy',$comment->post->id) }}" method="post">
+                                    <a href="{{ route('post.show',$comment->post->slug) }}">
+                                        <img class="img-fluid rounded" style="width: 70px"
+                                             src="{{ asset($comment->post->image) }}" alt="">
+                                    </a>
+                                    <form action="{{ route('post.destroy',$comment->post->slug) }}" method="post">
                                         <a class="btn btn-success"
-                                           href="{{ route('post.edit',$comment->post->id) }}">ویرایش</a>
+                                           href="{{ route('post.edit',$comment->post->slug) }}">ویرایش</a>
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">حذف</button>

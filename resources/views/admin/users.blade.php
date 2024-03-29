@@ -29,12 +29,14 @@
                             <tr>
                                 <td>{{ $user->id }}</td>
                                 <td>
-                                    <p>
-                                        {{ $user->name }}
-                                    </p>
+                                    <a href="{{ route('admin.user',$user->name) }}">
+                                        <p>
+                                            {{ $user->name }}
+                                        </p>
+                                    </a>
                                     <a href="{{ route('admin.user',$user->name) }}">
                                         <img class="img-fluid rounded" style="width: 70px"
-                                             src="{{ asset($user->avatar) }}">
+                                             src="{{ asset($user->avatar) }}" alt="">
                                     </a>
                                     <form action="{{ route('admin.user_destroy',$user->id) }}" method="post">
                                         @csrf

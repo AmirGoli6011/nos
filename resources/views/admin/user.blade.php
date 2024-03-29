@@ -32,7 +32,7 @@
                             <td>
                                 @foreach($comments as $comment)
                                     {!! $comment->comment !!}
-                                    <a href="/{{ $comment->post->slug }}" class="btn btn-success">نمایش پست</a>
+                                    <a href="{{ route('post.show',$comment->post->slug) }}" class="btn btn-success">نمایش پست</a>
                                     <form action="{{ route('comment.destroy',$comment->id) }}"
                                           method="post">
                                         @csrf
@@ -44,12 +44,15 @@
                             </td>
                             <td>
                                 @foreach($posts as $post)
-                                    <p>
-                                        {{ $post->title }}
-                                    </p>
-                                    <a href="{{ route('post.show',$post->slug) }}" class="btn btn-success">نمایش پست</a>
+                                    <a href="{{ route('post.show',$post->slug) }}">
+                                        <p>
+                                            {{ $post->title }}
+                                        </p>
+                                    </a>
                                     <form action="{{ route('post.destroy',$post->slug) }}"
                                           method="post">
+                                        <a class="btn btn-success"
+                                           href="{{ route('post.edit',$post->slug) }}">ویرایش</a>
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">حذف</button>

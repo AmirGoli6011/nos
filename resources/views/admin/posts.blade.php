@@ -39,12 +39,14 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <p>
-                                        {{ $post->title }}
-                                    </p>
+                                    <a href="{{ route('post.show',$post->slug) }}">
+                                        <p>
+                                            {{ $post->title }}
+                                        </p>
+                                    </a>
                                     <a href="{{ route('post.show',$post->slug) }}">
                                         <img class="img-fluid rounded" style="width: 70px"
-                                             src="{{ asset($post->image) }}">
+                                             src="{{ asset($post->image) }}" alt="">
                                     </a>
                                     <form action="{{ route('post.destroy',$post->slug) }}" method="post">
                                         <a class="btn btn-success"
