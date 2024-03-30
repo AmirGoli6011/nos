@@ -72,13 +72,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active"
+                        <a class="nav-link"
                            href="{{ route('post.index') }}">
+                            پست ها
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           href="{{ route('user.dashboard') }}">
                             {{ auth()->user()->name }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('post.index') }}">
+                        <a href="{{ route('user.dashboard') }}">
                             <img class="img-fluid rounded"
                                  style="width: 70px"
                                  src="{{ asset(auth()->user()->avatar) }}">
