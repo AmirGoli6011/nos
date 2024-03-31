@@ -34,7 +34,7 @@
                                     <p>
                                         {{ $comment->user->name }}
                                     </p>
-                                    <a href="{{ route('admin.user',$comment->user->name) }}">
+                                    <a href="{{ route('profile',$comment->user->username) }}">
                                         <img class="img-fluid rounded" style="width: 70px"
                                              src="{{ asset($comment->user->avatar) }}">
                                     </a>

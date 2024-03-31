@@ -79,21 +79,24 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active"
-                           href="{{ route('user.dashboard') }}">
+                           href="{{ route('dashboard') }}">
                             {{ auth()->user()->name }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('user.dashboard') }}">
+                        <a href="{{ route('dashboard') }}">
                             <img class="img-fluid rounded"
                                  style="width: 70px"
-                                 src="{{ asset(auth()->user()->avatar) }}">
+                                 src="{{ asset(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}">
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('logout') }}">
-                            خروج
-                        </a>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button class="nav-link"  type="submit">
+                                خروج
+                            </button>
+                        </form>
                     </li>
                 @else
                     <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">ثبت نام</a></li>

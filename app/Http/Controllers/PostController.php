@@ -40,40 +40,40 @@ class PostController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$request = $request->validate([
+		$data = $request->validate([
 			'title' => 'required|max:20|unique:App\Models\Post',
 			'body' => 'required',
 			'image' => 'image|mimes:jpg,png,jpeg',
 		]);
-		if (array_key_exists('image', $request) and array_key_exists('tags', $request)) {
-			$image = $request['image'];
-			$image = $image->store($request['title']);
+		if (array_key_exists('image', $data) and array_key_exists('tags', $data)) {
+			$image = $data['image'];
+			$image = $image->store($data['title']);
 			$image = 'storage/' . $image;
 			$post = auth()->user()->posts()->create([
 				'image' => $image,
-				'title' => $request['title'],
-				'body' => $request['body'],
+				'title' => $data['title'],
+				'body' => $data['body'],
 			]);
-			$post->tags()->attach($request['tags']);
-		} elseif (array_key_exists('image', $request)) {
-			$image = $request['image'];
-			$image = $image->store($request['title']);
+			$post->tags()->attach($data['tags']);
+		} elseif (array_key_exists('image', $data)) {
+			$image = $data['image'];
+			$image = $image->store($data['title']);
 			$image = 'storage/' . $image;
 			auth()->user()->posts()->create([
 				'image' => $image,
-				'title' => $request['title'],
-				'body' => $request['body'],
+				'title' => $data['title'],
+				'body' => $data['body'],
 			]);
-		} elseif (array_key_exists('tags', $request)) {
+		} elseif (array_key_exists('tags', $data)) {
 			$post = auth()->user()->posts()->create([
-				'title' => $request['title'],
-				'body' => $request['body'],
+				'title' => $data['title'],
+				'body' => $data['body'],
 			]);
-			$post->tags()->attach($request['tags']);
+			$post->tags()->attach($data['tags']);
 		} else {
 			auth()->user()->posts()->create([
-				'title' => $request['title'],
-				'body' => $request['body'],
+				'title' => $data['title'],
+				'body' => $data['body'],
 			]);
 		}
 		return redirect(route('post.index'));
@@ -112,44 +112,44 @@ class PostController extends Controller
 	 */
 	public function update(Request $request, Post $post)
 	{
-		$request = $request->validate([
+		$data = $request->validate([
 			'title' => 'required|max:20',
 			'body' => 'required',
 			'image' => 'image|mimes:jpg,png,jpeg|max:2048',
 		]);
-		if (array_key_exists('image', $request) and array_key_exists('tags', $request)) {
+		if (array_key_exists('image', $data) and array_key_exists('tags', $data)) {
 			$file = Storage::path($post->image);
 			unlink($file);
-			$image = $request['image'];
-			$image = $image->store($request['title']);
+			$image = $data['image'];
+			$image = $image->store($data['title']);
 			$image = 'storage/' . $image;
 			$post->update([
 				'image' => $image,
-				'title' => $request['title'],
-				'body' => $request['body'],
+				'title' => $data['title'],
+				'body' => $data['body'],
 			]);
-			$post->tags()->sync($request['tags']);
-		} elseif (array_key_exists('image', $request)) {
+			$post->tags()->sync($data['tags']);
+		} elseif (array_key_exists('image', $data)) {
 			$file = Storage::path($post->image);
 			unlink($file);
-			$image = $request['image'];
-			$image = $image->store($request['title']);
+			$image = $data['image'];
+			$image = $image->store($data['title']);
 			$image = 'storage/' . $image;
 			$post->update([
 				'image' => $image,
-				'title' => $request['title'],
-				'body' => $request['body'],
+				'title' => $data['title'],
+				'body' => $data['body'],
 			]);
-		} elseif (array_key_exists('tags', $request)) {
+		} elseif (array_key_exists('tags', $data)) {
 			$post->update([
-				'title' => $request['title'],
-				'body' => $request['body'],
+				'title' => $data['title'],
+				'body' => $data['body'],
 			]);
-			$post->tags()->sync($request['tags']);
+			$post->tags()->sync($data['tags']);
 		} else {
 			$post->update([
-				'title' => $request['title'],
-				'body' => $request['body'],
+				'title' => $data['title'],
+				'body' => $data['body'],
 			]);
 		}
 		return redirect(route('post.index'));

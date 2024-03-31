@@ -28,13 +28,13 @@
                                     <div class="small text-muted">
                                         نوشته شده در {{ date_format($post->updated_at,'d/m/y') }}
                                         توسط
-                                        <a href="{{ route('user.profile',$post->user->name) }}">{{ $post->user->name }}</a>
-                                        <a href="{{ route('user.profile',$post->user->name) }}">
+                                        <a href="{{ route('profile',$post->user->username) }}">{{ $post->user->name }}</a>
+                                        <a href="{{ route('profile',$post->user->username) }}">
                                             <img src="{{ asset($post->user->avatar) }}" alt="{{ $post->user->name }}"
                                                  style="width: 60px">
                                         </a>
                                         @auth()
-                                            <form action="{{ route('user.follow') }}" method="post">
+                                            <form action="{{ route('follow') }}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="follower" value="{{ auth()->user()->id }}">
                                                 <input type="hidden" name="followable" value="{{ $post->user->id }}">

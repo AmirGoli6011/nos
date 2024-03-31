@@ -34,8 +34,6 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 	Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
 	Route::get('/posts', [AdminController::class, 'posts'])->name('admin.posts');
 	Route::get('/comments', [AdminController::class, 'comments'])->name('admin.comments');
-	Route::get('/user/{user}', [AdminController::class, 'user'])->name('admin.user');
-	Route::delete('/user/{user}', [AdminController::class, 'user_destroy'])->name('admin.user_destroy');
 });
 
 Route::prefix('favorite')->middleware('auth')->group(function () {
@@ -49,10 +47,12 @@ Route::prefix('comment')->middleware('auth')->group(function () {
 });
 
 Route::prefix('user')->middleware('auth')->group(function () {
-	Route::get('profile/{user}', [UserController::class, 'profile'])->name('user.profile');
-	Route::get('dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
-	Route::post('follow', [UserController::class, 'follow'])->name('user.follow');
+	Route::put('{username}', [UserController::class, 'update'])->name('user.update');
+	Route::delete('{username}', [UserController::class, 'destroy'])->name('user.destroy');
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
+Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+Route::get('/profile/{username}', [UserController::class, 'profile'])->name('profile');
+Route::post('/follow', [UserController::class, 'follow'])->name('follow');

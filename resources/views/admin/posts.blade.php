@@ -33,7 +33,7 @@
                                     <p>
                                         {{ $post->user->name }}
                                     </p>
-                                    <a href="{{ route('admin.user',$post->user->name) }}">
+                                    <a href="{{ route('profile',$post->user->username) }}">
                                         <img class="img-fluid rounded" style="width: 70px"
                                              src="{{ asset($post->user->avatar) }}">
                                     </a>

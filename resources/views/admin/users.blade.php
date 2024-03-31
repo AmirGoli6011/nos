@@ -29,16 +29,16 @@
                             <tr>
                                 <td>{{ $user->id }}</td>
                                 <td>
-                                    <a href="{{ route('admin.user',$user->name) }}">
+                                    <a href="{{ route('profile',$user->username) }}">
                                         <p>
                                             {{ $user->name }}
                                         </p>
                                     </a>
-                                    <a href="{{ route('admin.user',$user->name) }}">
+                                    <a href="{{ route('profile',$user->username) }}">
                                         <img class="img-fluid rounded" style="width: 70px"
                                              src="{{ asset($user->avatar) }}" alt="">
                                     </a>
-                                    <form action="{{ route('admin.user_destroy',$user->id) }}" method="post">
+                                    <form action="{{ route('user.destroy',$user->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">حذف</button>
