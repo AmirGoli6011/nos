@@ -12,7 +12,7 @@
                         <h1 class="fw-bolder mb-1" id="title">{{ $post->title }}</h1>
                         <!-- Post meta content-->
                         <div class="text-muted fst-italic mb-2">
-                            نوشته شده در{{ $post->updated_at }}
+                            نوشته شده در{{ verta($post->created_at)->format('%d %B %y h:i') }}
                             <br>
                             توسط {{ $user->name }}
                         </div>
@@ -50,11 +50,16 @@
                             </form>
                             <!-- Single comment-->
                             @foreach($comments as $comment)
+                                <p>
+                                    {{ $comment->created_at->diffForHumans() }}
+                                </p>
                                 <div class="d-flex">
-                                    <div class="flex-shrink-0"><img class="img-fluid rounded"
-                                                                    style="width: 70px"
-                                                                    src="{{ asset($comment->user->avatar) }}"
-                                                                    alt="{{ $comment->user->name }}"/></div>
+                                    <div class="flex-shrink-0">
+                                        <img class="img-fluid rounded"
+                                             style="width: 70px"
+                                             src="{{ asset($comment->user->avatar) }}"
+                                             alt="{{ $comment->user->name }}"/>
+                                    </div>
                                     <div class="ms-3">
                                         <div class="fw-bold">{{ $comment->user->name }}</div>
                                         {!! $comment->comment !!}

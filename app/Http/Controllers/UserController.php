@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-	public function profile($user)
+	public function profile(User $user)
 	{
 		return view('user.profile', compact('user'));
 	}

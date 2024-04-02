@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use function Illuminate\Events\queueable;
 
 class PostController extends Controller
 {
@@ -20,63 +18,6 @@ class PostController extends Controller
 		$user = auth()->user();
 		$posts = $user->posts;
 		return view('post.index', compact('posts'));
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function create()
-	{
-		return view('post.create');
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function store(Request $request)
-	{
-		$data = $request->validate([
-			'title' => 'required|max:20|unique:App\Models\Post',
-			'body' => 'required',
-			'image' => 'image|mimes:jpg,png,jpeg',
-		]);
-		if (array_key_exists('image', $data) and array_key_exists('tags', $data)) {
-			$image = $data['image'];
-			$image = $image->store($data['title']);
-			$image = 'storage/' . $image;
-			$post = auth()->user()->posts()->create([
-				'image' => $image,
-				'title' => $data['title'],
-				'body' => $data['body'],
-			]);
-			$post->tags()->attach($data['tags']);
-		} elseif (array_key_exists('image', $data)) {
-			$image = $data['image'];
-			$image = $image->store($data['title']);
-			$image = 'storage/' . $image;
-			auth()->user()->posts()->create([
-				'image' => $image,
-				'title' => $data['title'],
-				'body' => $data['body'],
-			]);
-		} elseif (array_key_exists('tags', $data)) {
-			$post = auth()->user()->posts()->create([
-				'title' => $data['title'],
-				'body' => $data['body'],
-			]);
-			$post->tags()->attach($data['tags']);
-		} else {
-			auth()->user()->posts()->create([
-				'title' => $data['title'],
-				'body' => $data['body'],
-			]);
-		}
-		return redirect(route('post.index'));
 	}
 
 	/**
@@ -113,9 +54,10 @@ class PostController extends Controller
 	public function update(Request $request, Post $post)
 	{
 		$data = $request->validate([
-			'title' => 'required|max:20',
+			'title' => 'required|max:20|unique:App\Models\Post,title,' . $post->id,
 			'body' => 'required',
 			'image' => 'image|mimes:jpg,png,jpeg|max:2048',
+			'tags' => 'nullable',
 		]);
 		if (array_key_exists('image', $data) and array_key_exists('tags', $data)) {
 			$file = Storage::path($post->image);
@@ -156,6 +98,64 @@ class PostController extends Controller
 	}
 
 	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
+		$data = $request->validate([
+			'title' => 'required|max:20|unique:App\Models\Post',
+			'body' => 'required',
+			'image' => 'image|mimes:jpg,png,jpeg',
+			'tags' => 'nullable',
+		]);
+		if (array_key_exists('image', $data) and array_key_exists('tags', $data)) {
+			$image = $data['image'];
+			$image = $image->store($data['title']);
+			$image = 'storage/' . $image;
+			$post = auth()->user()->posts()->create([
+				'image' => $image,
+				'title' => $data['title'],
+				'body' => $data['body'],
+			]);
+			$post->tags()->attach($data['tags']);
+		} elseif (array_key_exists('image', $data)) {
+			$image = $data['image'];
+			$image = $image->store($data['title']);
+			$image = 'storage/' . $image;
+			auth()->user()->posts()->create([
+				'image' => $image,
+				'title' => $data['title'],
+				'body' => $data['body'],
+			]);
+		} elseif (array_key_exists('tags', $data)) {
+			$post = auth()->user()->posts()->create([
+				'title' => $data['title'],
+				'body' => $data['body'],
+			]);
+			$post->tags()->attach($data['tags']);
+		} else {
+			auth()->user()->posts()->create([
+				'title' => $data['title'],
+				'body' => $data['body'],
+			]);
+		}
+		return redirect(route('post.index'));
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		return view('post.create');
+	}
+
+	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param \App\Models\Post $post
@@ -177,14 +177,17 @@ class PostController extends Controller
 
 	public function upload(Request $request)
 	{
-		if (array_key_exists('title', $request)) {
+		session_start();
+		if (array_key_exists('title', $request->all())) {
 			$title = $request->title;
-		} else {
-			session_start();
+		} elseif (array_key_exists('title', $_SESSION)) {
 			$title = $_SESSION['title'];
+		} else {
+			return '';
 		}
 		$image = $request->file('upload');
 		$image = $image->store($title);
+		session_destroy();
 		return response()->json(['fileName' => $image, 'uploaded' => 1, 'url' => asset('storage/' . $image)]);
 	}
 

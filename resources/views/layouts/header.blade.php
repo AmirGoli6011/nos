@@ -77,27 +77,39 @@
                             پست ها
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active"
-                           href="{{ route('dashboard') }}">
-                            {{ auth()->user()->name }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('dashboard') }}">
+                    <div class="dropdown">
+                        <a href="" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                           data-bs-toggle="dropdown" aria-expanded="false">
                             <img class="img-fluid rounded"
                                  style="width: 70px"
                                  src="{{ asset(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}">
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="post">
-                            @csrf
-                            <button class="nav-link"  type="submit">
-                                خروج
-                            </button>
-                        </form>
-                    </li>
+                        <ul class="dropdown-menu text-center">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                    داشبورد
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('profile',auth()->user()->username) }}">
+                                    پروفایل
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="">
+                                    <form action="{{ route('logout') }}" method="post">
+                                        @csrf
+                                        <button class="btn" type="submit">
+                                            خروج
+                                        </button>
+                                    </form>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 @else
                     <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">ثبت نام</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">ورود</a></li>

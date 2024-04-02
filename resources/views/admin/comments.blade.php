@@ -31,22 +31,32 @@
                             <tr>
                                 <td>{{ $comment->id }}</td>
                                 <td>
-                                    <p>
-                                        {{ $comment->user->name }}
-                                    </p>
-                                    <a href="{{ route('profile',$comment->user->username) }}">
+                                    <a href="{{ route('admin.user',$comment->user->username) }}">
+                                        <p>
+                                            {{ $comment->user->name }}
+                                        </p>
                                         <img class="img-fluid rounded" style="width: 70px"
-                                             src="{{ asset($comment->user->avatar) }}">
+                                             src="{{ asset($comment->user->avatar) }}" alt="">
                                     </a>
+                                    <form action="{{ route('user.destroy',$comment->user->username) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">حذف</button>
+                                    </form>
                                 </td>
-                                <td>{!! $comment->comment !!}</td>
+                                <td>
+                                    {!! $comment->comment !!}
+                                    <form action="{{ route('comment.destroy',$comment->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">حذف</button>
+                                    </form>
+                                </td>
                                 <td>
                                     <a href="{{ route('post.show',$comment->post->slug) }}">
                                         <p>
                                             {{ $comment->post->title }}
                                         </p>
-                                    </a>
-                                    <a href="{{ route('post.show',$comment->post->slug) }}">
                                         <img class="img-fluid rounded" style="width: 70px"
                                              src="{{ asset($comment->post->image) }}" alt="">
                                     </a>

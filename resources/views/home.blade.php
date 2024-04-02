@@ -26,28 +26,26 @@
                                                                                     alt="{{ $post->title }}"/></a>
                                 <div class="card-body">
                                     <div class="small text-muted">
-                                        نوشته شده در {{ date_format($post->updated_at,'d/m/y') }}
+                                        نوشته شده در {{ verta($post->created_at)->formatJalaliDate() }}
                                         توسط
-                                        <a href="{{ route('profile',$post->user->username) }}">{{ $post->user->name }}</a>
+                                        <a class="small text-muted"
+                                           href="{{ route('profile',$post->user->username) }}">{{ $post->user->name }}</a>
                                         <a href="{{ route('profile',$post->user->username) }}">
                                             <img src="{{ asset($post->user->avatar) }}" alt="{{ $post->user->name }}"
                                                  style="width: 60px">
                                         </a>
                                         @auth()
-                                            <form action="{{ route('follow') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="follower" value="{{ auth()->user()->id }}">
-                                                <input type="hidden" name="followable" value="{{ $post->user->id }}">
+                                            @if(auth()->user()->id !== $post->user->id)
                                                 @if(auth()->user()->isFollowing($post->user))
-                                                    <button type="submit" class="btn btn-sm">
-                                                        دنبال نکردن
-                                                    </button>
+                                                    <input type="button" onclick="follow({{ $post->user->id }})"
+                                                           class="btn btn-sm" id="follow{{ $post->user->id }}"
+                                                           value="دنبال نکردن">
                                                 @else
-                                                    <button type="submit" class="btn btn-sm">
-                                                        دنبال کردن
-                                                    </button>
+                                                    <input type="button" onclick="follow({{ $post->user->id }})"
+                                                           class="btn btn-sm" id="follow{{ $post->user->id }}"
+                                                           value="دنبال کردن">
                                                 @endif
-                                            </form>
+                                            @endif
                                         @endauth
                                     </div>
                                     <a href="{{ route('post.show',$post->slug) }}">
@@ -57,20 +55,13 @@
                                         {!! Str::limit(strip_tags($post->body)) !!}
                                     </p>
                                     @auth()
-                                        <form action="{{ route('favorite.store') }}" method="post">
-                                            @csrf
-                                            <input type="hidden" name="user" value="{{ auth()->user()->id }}">
-                                            <input type="hidden" name="post" value="{{ $post->id }}">
-                                            @if(auth()->user()->hasFavorited($post))
-                                                <button type="submit" class="btn btn-sm" id="favorite">
-                                                    💔
-                                                </button>
-                                            @else
-                                                <button type="submit" class="btn btn-sm" id="favorite">
-                                                    ❤️
-                                                </button>
-                                            @endif
-                                        </form>
+                                        @if(auth()->user()->hasFavorited($post))
+                                            <input type="button" onclick="favorite({{ $post->id }})"
+                                                   class="btn btn-sm" id="favorite{{ $post->id }}" value="💔">
+                                        @else
+                                            <input type="button" onclick="favorite({{ $post->id }})"
+                                                   class="btn btn-sm" id="favorite{{ $post->id }}" value="❤️">
+                                        @endif
                                     @endauth
                                 </div>
                             </div>
@@ -82,4 +73,37 @@
             @include('layouts.sidebar')
         </div>
     </div>
+    @auth()
+        <script>
+            function follow(user_id) {
+                $.post(
+                    '{{ route('follow') }}',
+                    {
+                        follower: {{ auth()->user()->id }},
+                        followable: user_id,
+                    },
+                )
+                if ($('#follow' + user_id).val() === 'دنبال نکردن') {
+                    $('input#follow' + user_id).val('دنبال کردن')
+                } else {
+                    $('input#follow' + user_id).val('دنبال نکردن')
+                }
+            }
+
+            function favorite(post_id) {
+                $.post(
+                    '{{ route('favorite') }}',
+                    {
+                        user_id: {{ auth()->user()->id }},
+                        post_id: post_id,
+                    },
+                )
+                if ($('#favorite' + post_id).val() === '💔') {
+                    $('#favorite' + post_id).val('❤️')
+                } else {
+                    $('#favorite' + post_id).val('💔')
+                }
+            }
+        </script>
+    @endauth
 @endsection

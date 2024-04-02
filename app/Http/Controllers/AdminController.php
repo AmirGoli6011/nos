@@ -22,16 +22,8 @@ class AdminController extends Controller
 		$users = User::orderBy('id', 'desc')->get();
 		return view('admin.users', compact('users'));
 	}
-
-	public function user_destroy(User $user)
+	public function user(User $user)
 	{
-		unlink(Storage::path(str_replace('storage/','',$user->avatar)));
-		$user->delete();
-		return back();
-	}
-	public function user($user)
-	{
-		$user = User::where('name',$user)->firstOrFail();
 		$posts = $user->posts;
 		$comments = $user->comments;
 		return view('admin.user', compact(['user','posts','comments']));

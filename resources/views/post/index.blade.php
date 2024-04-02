@@ -28,8 +28,7 @@
                                 </a>
                                 <div class="card-body">
                                     <div class="small text-muted">
-                                        نوشته شده در {{ $post->updated_at }}
-                                        توسط {{ $post->user->name }}
+                                        نوشته شده در {{ verta($post->created_at)->formatJalaliDatetime() }}
                                     </div>
                                     <a href="{{ route('post.show',$post->slug) }}">
                                         <h2 class="card-title h4">{{ $post->title }}</h2>
@@ -38,7 +37,11 @@
                                         {!! Str::limit(strip_tags($post->body)) !!}
                                     </p>
                                     <p>
-                                        {{ $post->favoriters()->count() }} نفر افزودن به علاقه مندی ها
+                                        @if($post->favoriters()->count() === 1)
+                                            {{ $post->favoriters()->count() }} نفر افزوده به علاقه مندی ها
+                                        @else
+                                            {{ $post->favoriters()->count() }} نفر افزودن به علاقه مندی ها
+                                        @endif
                                     </p>
                                     <form action="{{ route('post.destroy',$post->slug) }}" method="post">
                                         <a class="btn btn-success"

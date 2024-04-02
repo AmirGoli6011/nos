@@ -26,7 +26,7 @@ Route::resource('post', PostController::class)->middleware('auth')->except('show
 Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
 
 
-Route::resource('tag', TagController::class)->middleware('auth')->except('show');
+Route::resource('tag', TagController::class)->middleware('admin')->except('show');
 Route::get('tag/{tag}', [TagController::class, 'show'])->name('tag.show');
 
 
@@ -34,11 +34,7 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 	Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
 	Route::get('/posts', [AdminController::class, 'posts'])->name('admin.posts');
 	Route::get('/comments', [AdminController::class, 'comments'])->name('admin.comments');
-});
-
-Route::prefix('favorite')->middleware('auth')->group(function () {
-	Route::get('/', [FavoriteController::class, 'index'])->name('favorite.index');
-	Route::post('/', [FavoriteController::class, 'store'])->name('favorite.store');
+	Route::get('/user/@{username}', [AdminController::class, 'user'])->name('admin.user');
 });
 
 Route::prefix('comment')->middleware('auth')->group(function () {
@@ -53,6 +49,10 @@ Route::prefix('user')->middleware('auth')->group(function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
-Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
-Route::get('/profile/{username}', [UserController::class, 'profile'])->name('profile');
-Route::post('/follow', [UserController::class, 'follow'])->name('follow');
+Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard')
+	->middleware('auth');
+Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index')
+	->middleware('auth');
+Route::post('/follow', [UserController::class, 'follow'])->name('follow.web')
+	->middleware('auth');
+Route::get('/@{username}', [UserController::class, 'profile'])->name('profile');

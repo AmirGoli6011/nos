@@ -14,11 +14,10 @@ class FavoriteController extends Controller
 		return view('favorite.index',compact('posts'));
 	}
 
-	public function store(Request $request)
+	public function favorite(Request $request)
 	{
-		$user = User::find($request->user);
-		$post = Post::find($request->post);
+		$user = User::find($request->user_id);
+		$post = Post::find($request->post_id);
 		$user->toggleFavorite($post);
-		return back();
 	}
 }

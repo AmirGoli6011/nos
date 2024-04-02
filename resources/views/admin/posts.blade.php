@@ -30,12 +30,12 @@
                             <tr>
                                 <td>{{ $post->id }}</td>
                                 <td>
-                                    <p>
-                                        {{ $post->user->name }}
-                                    </p>
-                                    <a href="{{ route('profile',$post->user->username) }}">
+                                    <a href="{{ route('admin.user',$post->user->username) }}">
+                                        <p>
+                                            {{ $post->user->name }}
+                                        </p>
                                         <img class="img-fluid rounded" style="width: 70px"
-                                             src="{{ asset($post->user->avatar) }}">
+                                             src="{{ asset($post->user->avatar) }}" alt="">
                                     </a>
                                 </td>
                                 <td>
@@ -43,8 +43,6 @@
                                         <p>
                                             {{ $post->title }}
                                         </p>
-                                    </a>
-                                    <a href="{{ route('post.show',$post->slug) }}">
                                         <img class="img-fluid rounded" style="width: 70px"
                                              src="{{ asset($post->image) }}" alt="">
                                     </a>

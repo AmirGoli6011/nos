@@ -29,12 +29,10 @@
                             <tr>
                                 <td>{{ $user->id }}</td>
                                 <td>
-                                    <a href="{{ route('profile',$user->username) }}">
+                                    <a href="{{ route('admin.user',$user->username) }}">
                                         <p>
                                             {{ $user->name }}
                                         </p>
-                                    </a>
-                                    <a href="{{ route('profile',$user->username) }}">
                                         <img class="img-fluid rounded" style="width: 70px"
                                              src="{{ asset($user->avatar) }}" alt="">
                                     </a>

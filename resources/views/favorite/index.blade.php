@@ -22,11 +22,11 @@
                             <!-- Blog post-->
                             <div class="card mb-4">
                                 <a href="{{ route('post.show',$post->slug) }}"><img class="card-img-top"
-                                                                 src="{{ asset($post->image) }}"
-                                                                 alt="{{ $post->title }}"/></a>
+                                                                                    src="{{ asset($post->image) }}"
+                                                                                    alt="{{ $post->title }}"/></a>
                                 <div class="card-body">
                                     <div class="small text-muted">
-                                        نوشته شده در {{ $post->updated_at }}
+                                        نوشته شده در {{ verta($post->created_at)->formatJalaliDate() }}
                                         توسط {{ $post->user->name }}
                                     </div>
                                     <a href="{{ route('post.show',$post->slug) }}">
@@ -35,14 +35,10 @@
                                     <p>
                                         {!! Str::limit(strip_tags($post->body)) !!}
                                     </p>
-                                    <form action="{{ route('favorite.store') }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="user" value="{{ auth()->user()->id }}">
-                                        <input type="hidden" name="post" value="{{ $post->id }}">
-                                        <button type="submit" class="btn btn-sm" id="favorite">
-                                            💔
-                                        </button>
-                                    </form>
+                                    <button type="submit" onclick="favorite({{ $post->id }})" class="btn btn-sm"
+                                            id="favorite{{ $post->id }}">
+                                        💔
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -53,4 +49,16 @@
             @include('layouts.sidebar')
         </div>
     </div>
+    <script>
+        function favorite(post_id) {
+            $.post(
+                '{{ route('favorite') }}',
+                {
+                    user_id: {{ auth()->user()->id }},
+                    post_id: post_id,
+                },
+            )
+            $('#favorite' + post_id).parent().parent().parent().remove()
+        }
+    </script>
 @endsection
