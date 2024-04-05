@@ -9,7 +9,8 @@
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.rtl.min.css') }}" rel="stylesheet"/>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
     <link href="{{ asset('js/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css') }}"
           rel="stylesheet"/>
@@ -24,7 +25,6 @@
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
             Nerds Of School
-            <!-- <img src="{{ asset('assets/nerd.png') }}" alt="Nerds Of School"> -->
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
