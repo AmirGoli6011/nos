@@ -37,8 +37,8 @@ class UserController extends Controller
 		]);
 		if (array_key_exists('avatar', $data)) {
 			$avatar = $data['avatar'];
-			$avatar = $avatar->store('avatars');
-			$avatar = 'storage/' . $avatar;
+			$avatar = $avatar->move('avatars',$avatar->getATime().'.'.$avatar->extension());
+			$avatar = $avatar->getPathname();
 			$user->update([
 				'avatar' => $avatar,
 				'name' => $data['name'],

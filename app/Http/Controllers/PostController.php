@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function index()
 	{
@@ -23,8 +24,8 @@ class PostController extends Controller
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param \App\Models\Post $post
-	 * @return \Illuminate\Http\Response
+	 * @param Post $post
+	 * @return Response
 	 */
 	public function show(Post $post)
 	{
@@ -36,8 +37,8 @@ class PostController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param \App\Models\Post $post
-	 * @return \Illuminate\Http\Response
+	 * @param Post $post
+	 * @return Response
 	 */
 	public function edit(Post $post)
 	{
@@ -47,9 +48,9 @@ class PostController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @param \App\Models\Post $post
-	 * @return \Illuminate\Http\Response
+	 * @param Request $request
+	 * @param Post $post
+	 * @return Response
 	 */
 	public function update(Request $request, Post $post)
 	{
@@ -60,11 +61,10 @@ class PostController extends Controller
 			'tags' => 'nullable',
 		]);
 		if (array_key_exists('image', $data) and array_key_exists('tags', $data)) {
-			$file = Storage::path($post->image);
-			unlink($file);
+			unlink(public_path($post->image));
 			$image = $data['image'];
-			$image = $image->store($data['title']);
-			$image = 'storage/' . $image;
+			$image = $image->move($data['title'], $image->getATime() . '.' . $image->extension());
+			$image = $image->getPathname();
 			$post->update([
 				'image' => $image,
 				'title' => $data['title'],
@@ -72,11 +72,10 @@ class PostController extends Controller
 			]);
 			$post->tags()->sync($data['tags']);
 		} elseif (array_key_exists('image', $data)) {
-			$file = Storage::path($post->image);
-			unlink($file);
+			unlink(public_path($post->image));
 			$image = $data['image'];
-			$image = $image->store($data['title']);
-			$image = 'storage/' . $image;
+			$image = $image->move($data['title'], $image->getATime() . '.' . $image->extension());
+			$image = $image->getPathname();
 			$post->update([
 				'image' => $image,
 				'title' => $data['title'],
@@ -100,8 +99,8 @@ class PostController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
+	 * @param Request $request
+	 * @return Response
 	 */
 	public function store(Request $request)
 	{
@@ -113,8 +112,8 @@ class PostController extends Controller
 		]);
 		if (array_key_exists('image', $data) and array_key_exists('tags', $data)) {
 			$image = $data['image'];
-			$image = $image->store($data['title']);
-			$image = 'storage/' . $image;
+			$image = $image->move($data['title'], $image->getATime() . '.' . $image->extension());
+			$image = $image->getPathname();
 			$post = auth()->user()->posts()->create([
 				'image' => $image,
 				'title' => $data['title'],
@@ -123,8 +122,8 @@ class PostController extends Controller
 			$post->tags()->attach($data['tags']);
 		} elseif (array_key_exists('image', $data)) {
 			$image = $data['image'];
-			$image = $image->store($data['title']);
-			$image = 'storage/' . $image;
+			$image = $image->move($data['title'], $image->getATime() . '.' . $image->extension());
+			$image = $image->getPathname();
 			auth()->user()->posts()->create([
 				'image' => $image,
 				'title' => $data['title'],
@@ -148,7 +147,7 @@ class PostController extends Controller
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function create()
 	{
@@ -158,12 +157,12 @@ class PostController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param \App\Models\Post $post
-	 * @return \Illuminate\Http\Response
+	 * @param Post $post
+	 * @return Response
 	 */
 	public function destroy(Post $post)
 	{
-		$path = Storage::path($post->title);
+		$path = public_path($post->title);
 		if (is_dir($path)) {
 			$files = glob($path . '/*');
 			foreach ($files as $file) {
@@ -186,9 +185,10 @@ class PostController extends Controller
 			return '';
 		}
 		$image = $request->file('upload');
-		$image = $image->store($title);
+		$image = $image->move($title, $image->getATime() . '.' . $image->extension());
 		session_destroy();
-		return response()->json(['fileName' => $image, 'uploaded' => 1, 'url' => asset('storage/' . $image)]);
+		return response()->json(['fileName' => $image->getFilename(), 'uploaded' => 1,
+			'url' => asset($image->getPathname())]);
 	}
 
 	public function title(Request $request)

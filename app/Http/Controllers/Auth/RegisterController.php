@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -68,8 +69,8 @@ class RegisterController extends Controller
 	{
 		if (array_key_exists('avatar', $data)) {
 			$avatar = $data['avatar'];
-			$avatar = $avatar->store('avatars');
-			$avatar = 'storage/' . $avatar;
+			$avatar = $avatar->move('avatars',$avatar->getATime().'.'.$avatar->extension());
+			$avatar = $avatar->getPathname();
 			return User::create([
 				'avatar' => $avatar,
 				'name' => $data['name'],
