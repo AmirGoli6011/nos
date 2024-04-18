@@ -11,7 +11,7 @@
                         @csrf
                         <div class="form-group">
                             <label class="form-label" for="tags">تگ ها: </label>
-                            <select class="form-control" name="tags[]" multiple>
+                            <select class="form-select" id="tags" name="tags[]" multiple>
                                 @foreach(Tag::all() as $tag)
                                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                 @endforeach

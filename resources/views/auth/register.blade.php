@@ -37,7 +37,8 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('نام کاربری') }}</label>
+                                <label for="username"
+                                       class="col-md-4 col-form-label text-md-end">{{ __('نام کاربری') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="username" type="text"
@@ -93,6 +94,21 @@
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control"
                                            name="password_confirmation" required autocomplete="new-password">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="recaptcha"
+                                       class="col-md-4 col-form-label text-md-end"></label>
+
+                                <div class="col-md-6" id="recaptcha">
+                                    {!! NoCaptcha::renderJs('fa') !!}
+                                    {!! NoCaptcha::display() !!}
+                                    @error('g-recaptcha-response')
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
 

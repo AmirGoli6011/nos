@@ -35,10 +35,9 @@
                                     <p>
                                         {!! Str::limit(strip_tags($post->body)) !!}
                                     </p>
-                                    <button type="submit" onclick="favorite({{ $post->id }})" class="btn btn-sm"
-                                            id="favorite{{ $post->id }}">
-                                        💔
-                                    </button>
+                                    <img src="{{ asset('css/bootstrap-icons/heart-fill.svg') }}" alt="like"
+                                         onclick="favorite({{ $post->id }})"
+                                         id="favorite{{ $post->id }}" width="16" height="16">
                                 </div>
                             </div>
                         </div>

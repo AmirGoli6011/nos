@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class TagController extends Controller
 {
@@ -17,16 +16,6 @@ class TagController extends Controller
 	{
 		$tags = Tag::orderBy('id', 'desc')->get();
 		return view('admin.tags', compact('tags'));
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function create()
-	{
-		return view('tag.create');
 	}
 
 	/**
@@ -47,6 +36,16 @@ class TagController extends Controller
 	}
 
 	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		return view('tag.create');
+	}
+
+	/**
 	 * Display the specified resource.
 	 *
 	 * @param int $id
@@ -54,7 +53,7 @@ class TagController extends Controller
 	 */
 	public function show(Tag $tag)
 	{
-		$posts = $tag->posts;
+		$posts = $tag->posts()->paginate(20);
 		return view('home', compact('posts'));
 	}
 

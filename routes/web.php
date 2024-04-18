@@ -51,8 +51,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard')
 	->middleware('auth');
+
 Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index')
 	->middleware('auth');
+
 Route::post('/follow', [UserController::class, 'follow'])->name('follow.web')
 	->middleware('auth');
+
 Route::get('/@{username}', [UserController::class, 'profile'])->name('profile');

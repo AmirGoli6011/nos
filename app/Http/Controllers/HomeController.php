@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\Tag;
-use http\QueryString;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
 	public function index()
 	{
-		$posts = Post::orderBy('id', 'desc')->get();
+		$posts = Post::orderByDesc('id')->paginate(20);
 		return view('home', compact('posts'));
 	}
 
@@ -21,7 +19,7 @@ class HomeController extends Controller
 		$posts = Post::where('title', 'regexp', $search)
 			->orWhere('slug', 'regexp', $search)
 			->orWhere('body', 'regexp', $search)
-			->get();
+			->paginate(20);
 		return view('home', compact('posts'));
 	}
 }

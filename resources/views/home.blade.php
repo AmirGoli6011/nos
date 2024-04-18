@@ -56,11 +56,13 @@
                                     </p>
                                     @auth()
                                         @if(auth()->user()->hasFavorited($post))
-                                            <input type="button" onclick="favorite({{ $post->id }})"
-                                                   class="btn btn-sm" id="favorite{{ $post->id }}" value="💔">
+                                            <img src="{{ asset('css/bootstrap-icons/heart-fill.svg') }}" alt="like"
+                                                 onclick="favorite({{ $post->id }})"
+                                                 id="favorite{{ $post->id }}" width="16" height="16">
                                         @else
-                                            <input type="button" onclick="favorite({{ $post->id }})"
-                                                   class="btn btn-sm" id="favorite{{ $post->id }}" value="❤️">
+                                            <img src="{{ asset('css/bootstrap-icons/heart.svg') }}" alt="like"
+                                                 onclick="favorite({{ $post->id }})"
+                                                 id="favorite{{ $post->id }}" width="16" height="16">
                                         @endif
                                     @endauth
                                 </div>
@@ -69,6 +71,7 @@
                     @endforeach
                 </div>
                 <!-- Pagination-->
+                {{ $posts->links('pagination::bootstrap-4') }}
             </div>
             @include('layouts.sidebar')
         </div>
@@ -98,10 +101,10 @@
                         post_id: post_id,
                     },
                 )
-                if ($('#favorite' + post_id).val() === '💔') {
-                    $('#favorite' + post_id).val('❤️')
+                if ($('#favorite' + post_id).attr('src') === '{{ asset('css/bootstrap-icons/heart.svg') }}') {
+                    $('#favorite' + post_id).attr('src', '{{ asset('css/bootstrap-icons/heart-fill.svg') }}')
                 } else {
-                    $('#favorite' + post_id).val('💔')
+                    $('#favorite' + post_id).attr('src', '{{ asset('css/bootstrap-icons/heart.svg') }}')
                 }
             }
         </script>

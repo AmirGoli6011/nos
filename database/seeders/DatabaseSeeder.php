@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
 			'password' => '$2y$10$Ts8U1QeSZXjeq0HoR7kcVuyzVPo33kGeGURHSyLT8igKVQytm/tf2',
 			'remember_token' => '',
 		]);
-		Post::factory(10)->create();
-		Tag::factory(10)->create();
+		User::factory(100)->create();
+		Post::factory(100)->create();
+		Tag::factory(50)->create();
 	}
 }
