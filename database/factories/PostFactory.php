@@ -15,6 +15,7 @@ class PostFactory extends Factory
 	{
 		return [
 			'user_id' => $this->faker->numberBetween(1,12),
+			'dir' => $this->faker->phoneNumber,
 			'image' => $this->faker->imageUrl,
 			'title' => $this->faker->title,
 			'body' => $this->faker->text

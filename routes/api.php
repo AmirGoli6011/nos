@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,10 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 
-Route::prefix('ckeditor')->group(function () {
-	Route::post('/upload', [PostController::class, 'upload'])->name('post.upload');
-	Route::post('/title', [PostController::class, 'title'])->name('post.title');
-});
+Route::post('tiny/uploadCreate', [PostController::class, 'uploadCreate'])->name('post.uploadCreate');
+
+Route::post('tiny/{id}/uploadUpdate', [PostController::class, 'uploadUpdate'])->name('post.uploadUpdate');
 
 Route::post('/favorite', [FavoriteController::class, 'favorite'])->name('favorite');
 
