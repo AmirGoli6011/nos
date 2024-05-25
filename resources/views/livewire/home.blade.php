@@ -53,9 +53,11 @@
                                     <a href="{{ route('post.show',$post->slug) }}">
                                         <h2 class="card-title h4">{{ $post->title }}</h2>
                                     </a>
-                                    <p>
-                                        {!! Str::limit(strip_tags($post->body)) !!}
-                                    </p>
+                                    <a href="{{ route('post.show',$post->slug) }}">
+                                        <p class="link-body-emphasis">
+                                            {!! Str::limit(strip_tags($post->body)) !!}
+                                        </p>
+                                    </a>
                                     @auth()
                                         @if(auth()->id() !== $post->user->id)
                                             @if(auth()->user()->hasFavorited($post))

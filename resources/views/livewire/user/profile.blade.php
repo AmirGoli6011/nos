@@ -8,15 +8,16 @@
                     <div class="card-header">
                         <img src="{{ asset($user->avatar) }}" alt="{{ $user->name }}" width="200px">
                     </div>
+                    <!-- User Profile-->
                     <div class="card-body">
                         <h3>{{ $user->name }}</h3>
                         @if(auth()->user()->id !== $user->id)
                             @if(auth()->user()->isFollowing($user))
-                                <button class="btn" wire:click="follow({{ auth()->id() }},{{ $user->id }})">
+                                <button class="btn" wire:click="follow({{ auth()->user()->id }},{{ $user->id }})">
                                     دنبال نکردن
                                 </button>
                             @else
-                                <button class="btn" wire:click="follow({{ auth()->id() }},{{ $user->id }})">
+                                <button class="btn" wire:click="follow({{ auth()->user()->id }},{{ $user->id }})">
                                     دنبال کردن
                                 </button>
                             @endif
@@ -51,6 +52,7 @@
                                             </button>
                                         @endif
                                     @endif
+                                    <hr>
                                 @endforeach
                             </div>
                         </div>
@@ -80,6 +82,7 @@
                                             </button>
                                         @endif
                                     @endif
+                                    <hr>
                                 @endforeach
                             </div>
                         </div>

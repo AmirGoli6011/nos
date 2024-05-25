@@ -11,15 +11,6 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ asset('css/bootstrap.rtl.min.css') }}" rel="stylesheet"/>
     @livewireStyles
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-{{--    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>--}}
-{{--    <link href="{{ asset('js/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css') }}"--}}
-{{--          rel="stylesheet"/>--}}
-{{--    <script src="{{ asset('js/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js') }}"></script>--}}
-{{--    <script>hljs.initHighlightingOnLoad();</script>--}}
-    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/scripts.js') }}"></script>
 </head>
 <body>
 @include('layouts.header')
@@ -27,9 +18,9 @@
 {{ $slot }}
 @livewireScripts
 @include('layouts.footer')
-<!-- Bootstrap core JS-->
-{{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>--}}
 <!-- Core theme JS-->
-{{--<script src="{{ asset('js/scripts.js') }}"></script>--}}
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('js/scripts.js') }}"></script>
 </body>
 </html>

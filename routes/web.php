@@ -80,4 +80,4 @@ Route::post('/follow', [UserController::class, 'follow'])->name('follow.web')
 	->middleware('auth');
 
 //Route::get('/@{username}', [UserController::class, 'profile'])->name('profile');
-Route::get('/@{username}', Profile::class)->name('profile');
+Route::get('/@{user}', Profile::class)->name('profile');
