@@ -32,7 +32,7 @@ class UserController extends Controller
 			'name' => ['required', 'string'],
 			'username' => ['required', 'string', 'alpha_dash', 'unique:users,username,' . $user->id],
 			'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
-			'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+			'password' => ['string', 'min:8', 'confirmed'],
 			'avatar' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
 		]);
 		if (array_key_exists('avatar', $data)) {

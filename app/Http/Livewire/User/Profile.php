@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\User;
 
 use App\Models\Post;
 use App\Models\User;
 use Livewire\Component;
 
-class Home extends Component
+class Profile extends Component
 {
-	public $posts;
+	public $user;
 
 	public function mount()
 	{
-		$this->posts = Post::orderByDesc('id')->get();
+		$this->user = auth()->user();
 	}
 
 	public function like($userId, $postId)
@@ -31,6 +31,6 @@ class Home extends Component
 
 	public function render()
 	{
-		return view('livewire.home');
+		return view('livewire.user.profile');
 	}
 }

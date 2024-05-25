@@ -24,7 +24,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('tiny/uploadCreate', [PostController::class, 'uploadCreate'])->name('post.uploadCreate');
 
 Route::post('tiny/{id}/uploadUpdate', [PostController::class, 'uploadUpdate'])->name('post.uploadUpdate');
-
-Route::post('/favorite', [FavoriteController::class, 'favorite'])->name('favorite');
-
-Route::post('/follow', [UserController::class, 'follow'])->name('follow');

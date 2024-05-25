@@ -32,18 +32,19 @@
                                         <a class="small text-muted"
                                            href="{{ route('profile',$post->user->username) }}">{{ $post->user->name }}</a>
                                         <a href="{{ route('profile',$post->user->username) }}">
-                                            <img src="{{ asset($post->user->avatar) }}" alt="{{ $post->user->name }}"
+                                            <img class="img-fluid" src="{{ asset($post->user->avatar) }}"
+                                                 alt="{{ $post->user->name }}"
                                                  style="width: 60px">
                                         </a>
                                         @auth()
                                             @if(auth()->user()->id !== $post->user->id)
                                                 @if(auth()->user()->isFollowing($post->user))
-                                                    <input type="button" onclick="follow({{ $post->user->id }})"
-                                                           class="btn btn-sm" id="follow{{ $post->user->id }}"
+                                                    <input type="button" class="btn btn-sm"
+                                                           wire:click="follow({{ auth()->id() }},{{ $post->user->id }})"
                                                            value="دنبال نکردن">
                                                 @else
-                                                    <input type="button" onclick="follow({{ $post->user->id }})"
-                                                           class="btn btn-sm" id="follow{{ $post->user->id }}"
+                                                    <input type="button" class="btn btn-sm"
+                                                           wire:click="follow({{ auth()->id() }},{{ $post->user->id }})"
                                                            value="دنبال کردن">
                                                 @endif
                                             @endif
@@ -56,14 +57,16 @@
                                         {!! Str::limit(strip_tags($post->body)) !!}
                                     </p>
                                     @auth()
-                                        @if(auth()->user()->hasFavorited($post))
-                                            <img src="{{ asset('css/bootstrap-icons/heart-fill.svg') }}" alt="like"
-                                                 wire:click="like({{ auth()->user()->id }},{{ $post->id }})"
-                                                 id="favorite{{ $post->id }}" width="16" height="16">
-                                        @else
-                                            <img src="{{ asset('css/bootstrap-icons/heart.svg') }}" alt="like"
-                                                 wire:click="like({{ auth()->user()->id }},{{ $post->id }})"
-                                                 id="favorite{{ $post->id }}" width="16" height="16">
+                                        @if(auth()->id() !== $post->user->id)
+                                            @if(auth()->user()->hasFavorited($post))
+                                                <img src="{{ asset('css/bootstrap-icons/heart-fill.svg') }}" alt="like"
+                                                     wire:click="like({{ auth()->id() }},{{ $post->id }})"
+                                                     width="16" height="16">
+                                            @else
+                                                <img src="{{ asset('css/bootstrap-icons/heart.svg') }}" alt="like"
+                                                     wire:click="like({{ auth()->id() }},{{ $post->id }})"
+                                                     width="16" height="16">
+                                            @endif
                                         @endif
                                     @endauth
                                 </div>
@@ -74,40 +77,8 @@
                 <!-- Pagination-->
                 {{--{{ $posts->links('pagination::bootstrap-4') }}--}}
             </div>
-            @include('layouts.sidebar')
+            <livewire:sidebar/>
+            {{--@include('layouts.sidebar')--}}
         </div>
     </div>
-    @auth()
-        <script>
-            function follow(user_id) {
-                $.post(
-                    '{{ route('follow') }}',
-                    {
-                        follower: {{ auth()->user()->id }},
-                        followable: user_id,
-                    },
-                )
-                if ($('#follow' + user_id).val() === 'دنبال نکردن') {
-                    $('input#follow' + user_id).val('دنبال کردن')
-                } else {
-                    $('input#follow' + user_id).val('دنبال نکردن')
-                }
-            }
-
-            function favorite(post_id) {
-                $.post(
-                    '{{ route('favorite') }}',
-                    {
-                        user_id: {{ auth()->user()->id }},
-                        post_id: post_id,
-                    },
-                )
-                if ($('#favorite' + post_id).attr('src') === '{{ asset('css/bootstrap-icons/heart.svg') }}') {
-                    $('#favorite' + post_id).attr('src', '{{ asset('css/bootstrap-icons/heart-fill.svg') }}')
-                } else {
-                    $('#favorite' + post_id).attr('src', '{{ asset('css/bootstrap-icons/heart.svg') }}')
-                }
-            }
-        </script>
-    @endauth
 </div>
