@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Http\Livewire\Auth\Login;
+use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\Post\Create;
 use App\Http\Livewire\Post\Edit;
@@ -27,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
+Route::get('login', Login::class)->name('login');
+Route::get('register', Register::class)->name('register');
 
 //Route::resource('post', PostController::class)->middleware('auth')->except('show');
 //Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
