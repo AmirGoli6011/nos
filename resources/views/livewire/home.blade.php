@@ -77,7 +77,7 @@
                     @endforeach
                 </div>
                 <!-- Pagination-->
-                {{--{{ $posts->links('pagination::bootstrap-4') }}--}}
+                {{ $posts->links('pagination::bootstrap-4') }}
             </div>
             <livewire:sidebar/>
             {{--@include('layouts.sidebar')--}}

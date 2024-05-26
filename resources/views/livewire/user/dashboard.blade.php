@@ -21,7 +21,7 @@
                             <div class="col-md-6">
                                 <input id="name" type="text"
                                        class="form-control @error('name') is-invalid @enderror" name="name"
-                                       value="{{ $name }}" wire:model.debounce.1000ms="name" autocomplete="name">
+                                       value="{{ $name }}" wire:model.debounce.1s="name" autocomplete="name">
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -35,7 +35,7 @@
                             <div class="col-md-6">
                                 <input id="username" type="text"
                                        class="form-control @error('username') is-invalid @enderror" name="username"
-                                       value="{{ $username }}" wire:model.debounce.1000ms="username"
+                                       value="{{ $username }}" wire:model.debounce.1s="username"
                                        autocomplete="username">
                                 @error('username')
                                 <span class="invalid-feedback" role="alert">
@@ -50,7 +50,7 @@
                             <div class="col-md-6">
                                 <input id="email" type="email"
                                        class="form-control @error('email') is-invalid @enderror" name="email"
-                                       value="{{ $email }}" wire:model.debounce.1000ms="email" autocomplete="email">
+                                       value="{{ $email }}" wire:model.debounce.1s="email" autocomplete="email">
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -64,7 +64,7 @@
                             <div class="col-md-6">
                                 <input id="password" type="password"
                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                       autocomplete="new-password" wire:model.debounce.1000ms="password">
+                                       autocomplete="new-password" wire:model.debounce.1s="password">
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -77,7 +77,7 @@
                                    class="col-md-4 col-form-label text-md-end">{{ __('تکرار رمز') }}</label>
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control"
-                                       name="password_confirmation" wire:model.debounce.1000ms="password_confirmation"
+                                       name="password_confirmation" wire:model.debounce.1s="password_confirmation"
                                        autocomplete="new-password">
                             </div>
                         </div>

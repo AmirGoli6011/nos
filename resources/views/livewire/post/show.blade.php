@@ -35,13 +35,21 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <!-- Comment form-->
-                            <form class="mb-4" action="{{ route('comment.store') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="post_id" value="{{ $post->id }}">
-                                <textarea id="comment" name="comment" class="form-control" rows="3"
-                                          placeholder="Join the discussion and leave a comment!"></textarea>
-                                <button type="submit" class="btn btn-success">ارسال</button>
-                            </form>
+                            <textarea id="comment" name="comment" wire:model.lazy="comment" class="form-control"
+                                      rows="3"
+                                      placeholder="به بحث بپیوندید و نظر بدهید!"></textarea>
+                            <button class="btn btn-success" wire:click="comment">ارسال</button>
+                            <script>
+                                tinymce.init({
+                                    selector: '#comment',
+                                    language: 'fa',
+                                    browser_spellcheck: true,
+                                    statusbar: false,
+                                    menubar: '',
+                                    toolbar: 'undo redo bold italic link codesample hr preview help',
+                                    plugins: 'link codesample hr preview help',
+                                });
+                            </script>
                             <!-- Single comment-->
                             @foreach($comments as $comment)
                                 <p>

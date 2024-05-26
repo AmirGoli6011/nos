@@ -11,16 +11,16 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ asset('css/bootstrap.rtl.min.css') }}" rel="stylesheet"/>
     @livewireStyles
+    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
 </head>
 <body>
 @include('layouts.header')
 @yield('content')
 {{ $slot }}
-@livewireScripts
 @include('layouts.footer')
 <!-- Core theme JS-->
+@livewireScripts
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
 </body>
 </html>

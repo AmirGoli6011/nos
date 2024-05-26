@@ -31,7 +31,7 @@ Auth::routes();
 //Route::resource('post', PostController::class)->middleware('auth')->except('show');
 //Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
 
-Route::prefix('post')->middleware('auth')->group(function () {
+Route::prefix('posts')->middleware('auth')->group(function () {
 	Route::get('/', Index::class)->name('post.index');
 	Route::post('/', [PostController::class, 'store'])->name('post.store');
 	Route::put('/{post}', [PostController::class, 'update'])->name('post.update');
