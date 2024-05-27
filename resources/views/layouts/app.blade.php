@@ -10,8 +10,8 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ asset('css/bootstrap.rtl.min.css') }}" rel="stylesheet"/>
-    @livewireStyles
     <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    @livewireStyles
 </head>
 <body>
 @include('layouts.header')
@@ -19,8 +19,8 @@
 {{ $slot }}
 @include('layouts.footer')
 <!-- Core theme JS-->
-@livewireScripts
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
+@livewireScripts
 </body>
 </html>

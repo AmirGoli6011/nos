@@ -79,8 +79,8 @@
                 <!-- Pagination-->
                 {{ $posts->links('pagination::bootstrap-4') }}
             </div>
+            <!-- Side widgets-->
             <livewire:sidebar/>
-            {{--@include('layouts.sidebar')--}}
         </div>
     </div>
 </div>

@@ -35,7 +35,7 @@ Route::get('register', Register::class)->name('register');
 //Route::resource('post', PostController::class)->middleware('auth')->except('show');
 //Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
 
-Route::prefix('posts')->middleware('auth')->group(function () {
+Route::prefix('post')->middleware('auth')->group(function () {
 	Route::get('/', Index::class)->name('post.index');
 	Route::post('/', [PostController::class, 'store'])->name('post.store');
 	Route::put('/{post}', [PostController::class, 'update'])->name('post.update');
@@ -58,10 +58,10 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 	Route::get('/user/@{username}', [AdminController::class, 'user'])->name('admin.user');
 });
 
-Route::prefix('comment')->middleware('auth')->group(function () {
-	Route::post('/', [CommentController::class, 'store'])->name('comment.store');
-	Route::delete('{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
-});
+//Route::prefix('comment')->middleware('auth')->group(function () {
+//	Route::post('/', [CommentController::class, 'store'])->name('comment.store');
+//	Route::delete('{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+//});
 
 Route::prefix('user')->middleware('auth')->group(function () {
 	Route::put('{username}', [UserController::class, 'update'])->name('user.update');
@@ -71,7 +71,7 @@ Route::prefix('user')->middleware('auth')->group(function () {
 //Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/', Home::class)->name('home');
 
-Route::get('/search', [HomeController::class, 'search'])->name('search');
+//Route::get('/search', [HomeController::class, 'search'])->name('search');
 //Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 Route::get('/dashboard', Dashboard::class)->name('dashboard')->middleware('auth');
 
@@ -80,8 +80,8 @@ Route::get('/dashboard', Dashboard::class)->name('dashboard')->middleware('auth'
 Route::get('/favorite', \App\Http\Livewire\Favorite\Index::class)->name('favorite.index')
 	->middleware('auth');
 
-Route::post('/follow', [UserController::class, 'follow'])->name('follow.web')
-	->middleware('auth');
+//Route::post('/follow', [UserController::class, 'follow'])->name('follow.web')
+//	->middleware('auth');
 
 //Route::get('/@{username}', [UserController::class, 'profile'])->name('profile');
 Route::get('/@{user}', Profile::class)->name('profile');

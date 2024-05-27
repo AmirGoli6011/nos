@@ -28,6 +28,6 @@ class Home extends Component
 	public function render()
 	{
 		$posts = Post::paginate(10);
-		return view('livewire.home',compact('posts'));
+		return view('livewire.home', compact('posts'));
 	}
 }

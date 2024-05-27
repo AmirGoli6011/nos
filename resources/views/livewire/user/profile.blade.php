@@ -42,12 +42,12 @@
                                     @if(auth()->user()->id !== $follower->id)
                                         @if(auth()->user()->isFollowing($follower))
                                             <button class="btn"
-                                                    wire:click="follow({{ auth()->id() }},{{ $user->id }})">
+                                                    wire:click="follow({{ auth()->id() }},{{ $follower->id }})">
                                                 دنبال نکردن
                                             </button>
                                         @else
                                             <button class="btn"
-                                                    wire:click="follow({{ auth()->id() }},{{ $user->id }})">
+                                                    wire:click="follow({{ auth()->id() }},{{ $follower->id }})">
                                                 دنبال کردن
                                             </button>
                                         @endif
@@ -72,12 +72,12 @@
                                     @if(auth()->user()->id !== $followings->id)
                                         @if(auth()->user()->isFollowing($followings))
                                             <button class="btn"
-                                                    wire:click="follow({{ auth()->id() }},{{ $user->id }})">
+                                                    wire:click="follow({{ auth()->id() }},{{ $followings->id }})">
                                                 دنبال نکردن
                                             </button>
                                         @else
                                             <button class="btn"
-                                                    wire:click="follow({{ auth()->id() }},{{ $user->id }})">
+                                                    wire:click="follow({{ auth()->id() }},{{ $followings->id }})">
                                                 دنبال کردن
                                             </button>
                                         @endif

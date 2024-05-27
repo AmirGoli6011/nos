@@ -7,15 +7,15 @@ use Livewire\Component;
 
 class Sidebar extends Component
 {
-	public $posts;
 	public $search;
+	public $posts;
 
-	public function search($search)
+	public function updated()
 	{
-		$this->posts = Post::where('title', 'regexp', $search)
-			->orWhere('slug', 'regexp', $search)
-			->orWhere('body', 'regexp', $search)
-			->paginate(20);
+		$this->posts = Post::where('title', 'regexp', $this->search)
+			->orWhere('slug', 'regexp', $this->search)
+//			->orWhere('body', 'regexp', $this->search)
+			->get();
 	}
 
 	public function render()
