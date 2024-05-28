@@ -9,6 +9,42 @@ use Illuminate\Http\Response;
 class PostController extends Controller
 {
 	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		$user = auth()->user();
+		$posts = $user->posts;
+		return view('post.index', compact('posts'));
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param Post $post
+	 * @return Response
+	 */
+	public function show(Post $post)
+	{
+		$user = $post->user;
+		$comments = $post->comments;
+		return view('post.show', compact(['post', 'user', 'comments']));
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param Post $post
+	 * @return Response
+	 */
+	public function edit(Post $post)
+	{
+		return view('post.edit', compact('post'));
+	}
+
+	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param Request $request
@@ -84,6 +120,16 @@ class PostController extends Controller
 		}
 
 		return redirect(route('post.index'));
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		return view('post.create');
 	}
 
 	public function uploadCreate()

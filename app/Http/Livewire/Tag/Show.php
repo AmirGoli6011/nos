@@ -7,6 +7,7 @@ use Livewire\Component;
 
 class Show extends Component
 {
+	public $user;
 	public $posts;
 
 	public function mount(Tag $tag)

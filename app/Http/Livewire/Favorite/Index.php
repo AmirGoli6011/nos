@@ -15,11 +15,9 @@ class Index extends Component
 		$this->posts = auth()->user()->getFavoriteItems(Post::class)->orderBy('id','desc')->get();
 	}
 
-	public function like($userId, $postId)
+	public function like(Post $post)
 	{
-		$user = User::find($userId);
-		$post = Post::find($postId);
-		$user->unfavorite($post);
+		auth()->user()->unfavorite($post);
 		$this->posts = auth()->user()->getFavoriteItems(Post::class)->orderBy('id','desc')->get();
 	}
 

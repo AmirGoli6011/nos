@@ -1,4 +1,3 @@
-@php use App\Models\Tag; @endphp
 @extends('layouts.app')
 @section('content')
     <!-- Page content-->
@@ -12,7 +11,7 @@
                         <div class="form-group">
                             <label class="form-label" for="tags">تگ ها: </label>
                             <select class="form-select" id="tags" name="tags[]" multiple>
-                                @foreach(Tag::all() as $tag)
+                                @foreach(App\Models\Tag::all() as $tag)
                                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                 @endforeach
                             </select>
@@ -38,7 +37,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="title">بدنه: </label>
+                            <label class="form-label" for="body">بدنه: </label>
                             <textarea class="form-control @error('body') is-invalid @enderror"
                                       name="body" id="body" rows="10">
                                 {!! old('body') !!}
@@ -51,19 +50,21 @@
                         </div>
                         <button class="btn btn-success" type="submit">ساختن</button>
                         <script>
-                            let title;
-                            $('#title').keyup(function () {
-                                title = $(this).val();
-                                $.post(
-                                    '{{ route('post.title') }}',
-                                    {
-                                        title: title
-                                    },
-                                )
+                            tinymce.init({
+                                selector: '#body',
+                                language: 'fa',
+                                browser_spellcheck: true,
+                                paste_data_images: true,
+                                image_caption: true,
+                                automatic_uploads: true,
+                                images_upload_url: '{{route('post.uploadCreate')}}',
+                                plugins: [
+                                    'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+                                    'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+                                    'media', 'table', 'emoticons', 'help'
+                                ]
                             })
-                            CKEDITOR.replace('body', {
-                                filebrowserUploadUrl: '{{ route('post.upload',["_token" => csrf_token()]) }}'
-                            })
+                            ;
                         </script>
                     </form>
                 </article>

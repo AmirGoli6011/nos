@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Layouts;
 
 use App\Models\Post;
 use Livewire\Component;
@@ -20,6 +20,6 @@ class Sidebar extends Component
 
 	public function render()
 	{
-		return view('livewire.sidebar');
+		return view('livewire.layouts.sidebar');
 	}
 }

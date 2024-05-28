@@ -13,11 +13,11 @@
                         <h3>{{ $user->name }}</h3>
                         @if(auth()->user()->id !== $user->id)
                             @if(auth()->user()->isFollowing($user))
-                                <button class="btn" wire:click="follow({{ auth()->user()->id }},{{ $user->id }})">
+                                <button class="btn" wire:click="follow({{ $user->id }})">
                                     دنبال نکردن
                                 </button>
                             @else
-                                <button class="btn" wire:click="follow({{ auth()->user()->id }},{{ $user->id }})">
+                                <button class="btn" wire:click="follow({{ $user->id }})">
                                     دنبال کردن
                                 </button>
                             @endif
@@ -33,7 +33,7 @@
                                 <h5>دنبال کننده ها: {{ $user->followers()->count() }}</h5>
                             </div>
                             <div class="card-body">
-                                @foreach($user->followers as $follower)
+                                @foreach($followers as $follower)
                                     <a href="{{ route('profile',$follower->username) }}">
                                         <img src="{{ asset($follower->avatar) }}" alt="{{ $follower->name }}"
                                              style="width: 100px;">
@@ -42,12 +42,12 @@
                                     @if(auth()->user()->id !== $follower->id)
                                         @if(auth()->user()->isFollowing($follower))
                                             <button class="btn"
-                                                    wire:click="follow({{ auth()->id() }},{{ $follower->id }})">
+                                                    wire:click="follow({{ $follower->id }})">
                                                 دنبال نکردن
                                             </button>
                                         @else
                                             <button class="btn"
-                                                    wire:click="follow({{ auth()->id() }},{{ $follower->id }})">
+                                                    wire:click="follow({{ $follower->id }})">
                                                 دنبال کردن
                                             </button>
                                         @endif
@@ -63,21 +63,21 @@
                                 <h5>دنبال شونده ها: {{ $user->followings()->count() }}</h5>
                             </div>
                             <div class="card-body">
-                                @foreach($user->followings as $followings)
-                                    <a href="{{ route('profile',$followings->username) }}">
-                                        <img src="{{ asset($followings->avatar) }}" alt="{{ $followings->name }}"
+                                @foreach($followings as $following)
+                                    <a href="{{ route('profile',$following->username) }}">
+                                        <img src="{{ asset($following->avatar) }}" alt="{{ $following->name }}"
                                              style="width: 100px;">
-                                        <h5>{{ $followings->name }}</h5>
+                                        <h5>{{ $following->name }}</h5>
                                     </a>
-                                    @if(auth()->user()->id !== $followings->id)
-                                        @if(auth()->user()->isFollowing($followings))
+                                    @if(auth()->user()->id !== $following->id)
+                                        @if(auth()->user()->isFollowing($following))
                                             <button class="btn"
-                                                    wire:click="follow({{ auth()->id() }},{{ $followings->id }})">
+                                                    wire:click="follow({{ $following->id }})">
                                                 دنبال نکردن
                                             </button>
                                         @else
                                             <button class="btn"
-                                                    wire:click="follow({{ auth()->id() }},{{ $followings->id }})">
+                                                    wire:click="follow({{ $following->id }})">
                                                 دنبال کردن
                                             </button>
                                         @endif

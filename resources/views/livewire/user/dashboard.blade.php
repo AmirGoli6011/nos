@@ -88,7 +88,6 @@
                                 </button>
                             </div>
                         </div>
-                        {!! $alert !!}
                     </div>
                 </div>
             </div>

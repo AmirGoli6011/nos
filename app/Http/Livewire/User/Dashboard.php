@@ -16,7 +16,6 @@ class Dashboard extends Component
 	public $email;
 	public $password;
 	public $password_confirmation;
-	public $alert = '';
 
 	public function mount()
 	{
@@ -57,7 +56,7 @@ class Dashboard extends Component
 			'password' => Hash::make($this->password),
 		]);
 		$this->password = $this->password_confirmation = $this->avatar = null;
-		$this->alert = '<script>alert("اطلاعات شما ذخیره شد")</script>';
+		$this->emit('successAlert','اطلاعات شما ثبت شد');
 	}
 
 	public function render()

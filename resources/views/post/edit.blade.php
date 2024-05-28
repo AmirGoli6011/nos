@@ -6,12 +6,13 @@
             <div class="col-lg-12">
                 <!-- Post content-->
                 <article>
-                    <form action="{{ route('post.update',$post->slug) }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('post.update',$post->slug) }}" method="post"
+                          enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
                             <label class="form-label" for="tags">تگ ها: </label>
-                            <select class="form-control" name="tags[]" multiple>
+                            <select class="form-control" name="tags[]" id="tags" multiple>
                                 @foreach(\App\Models\Tag::all() as $tag)
                                     <option value="{{ $tag->id }}"
                                             {{ in_array($tag->id,$post->tags->pluck('id')->toArray())?'selected':''}}>
@@ -41,7 +42,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="title">بدنه: </label>
+                            <label class="form-label" for="body">بدنه: </label>
                             <textarea class="form-control @error('body') is-invalid @enderror"
                                       name="body" id="body" rows="10">{!! $post->body !!}</textarea>
                             @error('body')
@@ -52,19 +53,20 @@
                         </div>
                         <button class="btn btn-success" type="submit">به روز رسانی</button>
                         <script>
-                            let title;
-                            $('#title').keyup(function () {
-                                title = $(this).val();
-                                $.post(
-                                    '{{ route('post.title') }}',
-                                    {
-                                        title: title
-                                    },
-                                )
-                            })
-                            CKEDITOR.replace('body', {
-                                filebrowserUploadUrl: '{{ route('post.upload',["_token" => csrf_token()]) }}'
-                            })
+                            tinymce.init({
+                                selector: '#body',
+                                language: 'fa',
+                                browser_spellcheck: true,
+                                automatic_uploads: true,
+                                images_reuse_filename: true,
+                                images_upload_url: '{{ route('post.uploadUpdate',$post->id) }}',
+                                contextmenu: false,
+                                plugins: [
+                                    'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+                                    'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+                                    'media', 'table', 'emoticons', 'help'
+                                ]
+                            });
                         </script>
                     </form>
                 </article>

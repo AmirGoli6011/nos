@@ -35,7 +35,7 @@
                                         {!! Str::limit(strip_tags($post->body)) !!}
                                     </p>
                                     <img src="{{ asset('css/bootstrap-icons/heart-fill.svg') }}" alt="like"
-                                         wire:click="like({{ auth()->user()->id }},{{ $post->id }})"
+                                         wire:click="like({{ $post->id }})"
                                          id="favorite{{ $post->id }}" width="16" height="16">
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                 </div>
                 <!-- Pagination-->
             </div>
-            @include('layouts.sidebar')
+            <livewire:sidebar/>
         </div>
     </div>
 </div>

@@ -8,16 +8,20 @@ use Livewire\Component;
 class Profile extends Component
 {
 	public $user;
+	public $followers;
+	public $followings;
 
-	public function mount($user)
+	public function mount()
 	{
-		$this->user = $user;
+		$this->followers = $this->user->followers;
+		$this->followings = $this->user->followings;
 	}
 
-	public function follow(User $follower, User $followable)
+	public function follow(User $user)
 	{
-		$follower->toggleFollow($followable);
-		$this->user = $followable;
+		auth()->user()->toggleFollow($user);
+		$this->followers = $this->user->followers;
+		$this->followings = $this->user->followings;
 	}
 
 	public function render()

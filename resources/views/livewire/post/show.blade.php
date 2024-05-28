@@ -35,11 +35,10 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <!-- Comment form-->
-                            <textarea id="comment" name="comment" wire:model.lazy="comment" class="form-control"
-                                      rows="3"
-                                      placeholder="به بحث بپیوندید و نظر بدهید!"></textarea>
+                            <textarea id="comment" wire:model="comment" class="form-control"
+                                      rows="3" placeholder="به بحث بپیوندید و نظر بدهید!"></textarea>
                             <button class="btn btn-success" wire:click="comment">ارسال</button>
-                            <script>
+                            {{--<script>
                                 tinymce.init({
                                     selector: '#comment',
                                     language: 'fa',
@@ -49,7 +48,7 @@
                                     toolbar: 'undo redo bold italic link codesample hr preview help',
                                     plugins: 'link codesample hr preview help',
                                 });
-                            </script>
+                            </script>--}}
                             <!-- Single comment-->
                             @foreach($comments as $comment)
                                 <p>
@@ -64,17 +63,13 @@
                                     </div>
                                     <div class="ms-3">
                                         <div class="fw-bold">{{ $comment->user->name }}</div>
-                                        {!! $comment->comment !!}
+                                        {{ $comment->comment }}
+                                        {{--{!! $comment->comment !!}--}}
                                     </div>
                                     @auth()
                                         <div class="btn btn-group">
                                             @if($post->user->id === auth()->user()->id or auth()->user()->id === 1 or auth()->user()->id === $comment->user->id)
-                                                <form action="{{ route('comment.destroy',$comment->id) }}"
-                                                      method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">حذف</button>
-                                                </form>
+                                                <button wire:click="delete({{ $comment->id }})" class="btn btn-danger">حذف</button>
                                             @endif
                                         </div>
                                     @endauth
@@ -84,7 +79,7 @@
                     </div>
                 </section>
             </div>
-            @include('layouts.sidebar')
+            <livewire:sidebar/>
         </div>
     </div>
 </div>

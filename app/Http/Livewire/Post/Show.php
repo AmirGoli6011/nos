@@ -2,17 +2,17 @@
 
 namespace App\Http\Livewire\Post;
 
-use App\Models\Post;
+use App\Models\Comment;
 use Livewire\Component;
 
 class Show extends Component
 {
-	public $post;
 	public $user;
+	public $post;
 	public $comments;
 	public $comment;
 
-	public function mount(Post $post)
+	public function mount($post)
 	{
 		$this->post = $post;
 		$this->user = $post->user;
@@ -22,10 +22,16 @@ class Show extends Component
 	public function comment()
 	{
 		auth()->user()->comments()->create([
+			'user_id' => auth()->id(),
 			'post_id' => $this->post->id,
 			'comment' => $this->comment,
 		]);
 		$this->comments = $this->post->comments;
+	}
+
+	public function delete(Comment $comment)
+	{
+		$comment->delete();
 	}
 
 	public function render()

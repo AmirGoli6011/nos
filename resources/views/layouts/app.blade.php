@@ -16,11 +16,21 @@
 <body>
 @include('layouts.header')
 @yield('content')
-{{ $slot }}
 @include('layouts.footer')
 <!-- Core theme JS-->
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/scripts.js') }}"></script>
+<script src="{{ asset('js/swal.min.js') }}"></script>
 @livewireScripts
+<script>
+    window.livewire.on('successAlert', function(message){
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: message,
+            showConfirmButton: false,
+            timer: 1500
+        });
+    })
+</script>
 </body>
 </html>

@@ -49,7 +49,7 @@
                 </div>
                 <!-- Pagination-->
             </div>
-            @include('layouts.sidebar')
+            <livewire:sidebar/>
         </div>
     </div>
 @endsection
