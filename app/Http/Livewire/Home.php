@@ -5,11 +5,16 @@ namespace App\Http\Livewire;
 use App\Models\Post;
 use App\Models\User;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Home extends Component
 {
-	use WithPagination;
+	public $perPage = 6;
+	protected $listeners = ['loadMore'];
+
+	public function loadMore()
+	{
+		$this->perPage = $this->perPage + 6;
+	}
 
 	public function like($userId, $postId)
 	{
@@ -27,7 +32,7 @@ class Home extends Component
 
 	public function render()
 	{
-		$posts = Post::paginate(10);
+		$posts = Post::orderByDesc('id')->paginate($this->perPage);
 		return view('livewire.home', compact('posts'));
 	}
 }

@@ -13,7 +13,7 @@
                         <h3>{{ $user->name }}</h3>
                         @if(auth()->user()->id !== $user->id)
                             @if(auth()->user()->isFollowing($user))
-                                <button class="btn" wire:click="follow({{ $user->id }})">
+                                <button class="btn" wire:click="unfollow({{ $user->id }})">
                                     دنبال نکردن
                                 </button>
                             @else
@@ -42,7 +42,7 @@
                                     @if(auth()->user()->id !== $follower->id)
                                         @if(auth()->user()->isFollowing($follower))
                                             <button class="btn"
-                                                    wire:click="follow({{ $follower->id }})">
+                                                    wire:click="unfollow({{ $follower->id }})">
                                                 دنبال نکردن
                                             </button>
                                         @else
@@ -72,7 +72,7 @@
                                     @if(auth()->user()->id !== $following->id)
                                         @if(auth()->user()->isFollowing($following))
                                             <button class="btn"
-                                                    wire:click="follow({{ $following->id }})">
+                                                    wire:click="unfollow({{ $following->id }})">
                                                 دنبال نکردن
                                             </button>
                                         @else

@@ -10,12 +10,14 @@ class Index extends Component
 {
 	use WithPagination;
 
+	public $posts;
 	public $user;
 	public $post;
 
 	public function mount()
 	{
 		$this->user = auth()->user();
+		$this->posts = $this->user->posts()->get();
 	}
 
 	public function delete(Post $post)
@@ -38,7 +40,6 @@ class Index extends Component
 
 	public function render()
 	{
-		$posts = $this->user->posts()->paginate(10);
-		return view('livewire.post.index',compact('posts'));
+		return view('livewire.post.index');
 	}
 }

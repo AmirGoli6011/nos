@@ -7,7 +7,7 @@
             <div class="card-body">
                 <div class="input-group">
                     <input wire:model.debounce.1s="search" class="form-control" type="text" name="search"
-                           placeholder="عبارت جستجو را وارد کنید..."
+                           placeholder="جسجتو کن..."
                            aria-label="Enter search term..." aria-describedby="button-search"/>
                 </div>
             </div>

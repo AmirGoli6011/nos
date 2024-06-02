@@ -19,9 +19,14 @@ class Profile extends Component
 
 	public function follow(User $user)
 	{
-		auth()->user()->toggleFollow($user);
-		$this->followers = $this->user->followers;
-		$this->followings = $this->user->followings;
+		auth()->user()->follow($user);
+		$this->followings->add($user);
+	}
+
+	public function unfollow(User $user)
+	{
+		auth()->user()->unfollow($user);
+		$this->followings = $this->followings->reject($user);
 	}
 
 	public function render()

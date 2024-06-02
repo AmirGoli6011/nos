@@ -66,7 +66,14 @@
                     @endforeach
                 </div>
                 <!-- Pagination-->
-                {{ $posts->links('pagination::bootstrap-4') }}
+                <script>
+                    window.onscroll = function () {
+                        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                            window.livewire.emit('loadMore');
+                        }
+                    };
+                </script>
+                {{--{{ $posts->links('pagination::bootstrap-4') }}--}}
             </div>
             <!-- Side widgets-->
             <livewire:sidebar/>

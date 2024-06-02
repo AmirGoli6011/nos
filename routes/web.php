@@ -10,6 +10,7 @@ use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Post\Create;
 use App\Http\Livewire\Post\Edit;
+use App\Http\Livewire\User\Profile;
 use Illuminate\Support\Facades\Route;
 
 /*
