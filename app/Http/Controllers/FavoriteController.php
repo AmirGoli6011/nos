@@ -13,11 +13,4 @@ class FavoriteController extends Controller
 		$posts = auth()->user()->getFavoriteItems(Post::class)->orderBy('id','desc')->get();
 		return view('favorite.index',compact('posts'));
 	}
-
-	public function favorite(Request $request)
-	{
-		$user = User::find($request->user_id);
-		$post = Post::find($request->post_id);
-		$user->toggleFavorite($post);
-	}
 }

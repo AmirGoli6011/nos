@@ -53,8 +53,8 @@ class TagController extends Controller
 	 */
 	public function show(Tag $tag)
 	{
-		$posts = $tag->posts()->paginate(20);
-		return view('home', compact('posts'));
+		$posts = $tag->posts()->get();
+		return view('tag.show', compact('posts'));
 	}
 
 	/**

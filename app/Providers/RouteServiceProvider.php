@@ -59,8 +59,8 @@ class RouteServiceProvider extends ServiceProvider
 			return Tag::where('name',$tag)->firstOrfail();
 		});
 
-		Route::bind('username',function ($username){
-			return User::where('username',$username)->firstOrfail();
+		Route::bind('user',function ($user){
+			return User::where('username',$user)->firstOrfail();
 		});
     }
 
