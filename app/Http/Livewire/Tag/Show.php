@@ -2,20 +2,26 @@
 
 namespace App\Http\Livewire\Tag;
 
-use App\Models\Tag;
+use App\Models\Post;
+use App\Models\User;
 use Livewire\Component;
 
 class Show extends Component
 {
-	public $user;
 	public $posts;
 
-	public function mount(Tag $tag)
+	public function like(Post $post)
 	{
-		$this->posts = $tag->posts()->get();
+		auth()->user()->toggleFavorite($post);
 	}
-    public function render()
-    {
-        return view('livewire.home');
-    }
+
+	public function follow(User $user)
+	{
+		auth()->user()->toggleFollow($user);
+	}
+
+	public function render()
+	{
+		return view('livewire.tag.show');
+	}
 }

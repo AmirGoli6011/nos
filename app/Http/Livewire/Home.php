@@ -16,18 +16,14 @@ class Home extends Component
 		$this->perPage = $this->perPage + 6;
 	}
 
-	public function like($userId, $postId)
+	public function like(Post $post)
 	{
-		$user = User::find($userId);
-		$post = Post::find($postId);
-		$user->toggleFavorite($post);
+		auth()->user()->toggleFavorite($post);
 	}
 
-	public function follow($follower, $followable)
+	public function follow(User $user)
 	{
-		$follower = User::find($follower);
-		$followable = User::find($followable);
-		$follower->toggleFollow($followable);
+		auth()->user()->toggleFollow($user);
 	}
 
 	public function render()

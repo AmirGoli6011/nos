@@ -26,12 +26,14 @@ class Show extends Component
 			'post_id' => $this->post->id,
 			'comment' => $this->comment,
 		]);
-		$this->comments = $this->post->comments;
+		$this->comment = '';
+		$this->comments = $this->post->comments()->get();
 	}
 
 	public function delete(Comment $comment)
 	{
 		$comment->delete();
+		$this->comments = $this->post->comments()->get();
 	}
 
 	public function render()

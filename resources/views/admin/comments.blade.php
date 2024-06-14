@@ -75,7 +75,7 @@
                 </div>
                 <!-- Pagination-->
             </div>
-            <livewire:sidebar/>
+            <livewire:layouts.sidebar/>
         </div>
     </div>
 @endsection

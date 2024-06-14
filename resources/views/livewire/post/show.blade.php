@@ -69,7 +69,9 @@
                                     @auth()
                                         <div class="btn btn-group">
                                             @if($post->user->id === auth()->user()->id or auth()->user()->id === 1 or auth()->user()->id === $comment->user->id)
-                                                <button wire:click="delete({{ $comment->id }})" class="btn btn-danger">حذف</button>
+                                                <button wire:click="delete({{ $comment->id }})" class="btn btn-danger">
+                                                    حذف
+                                                </button>
                                             @endif
                                         </div>
                                     @endauth
@@ -79,7 +81,7 @@
                     </div>
                 </section>
             </div>
-            <livewire:sidebar/>
+            <livewire:layouts.sidebar/>
         </div>
     </div>
 </div>

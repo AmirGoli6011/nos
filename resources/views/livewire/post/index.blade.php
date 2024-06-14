@@ -45,7 +45,7 @@
                 <!-- Pagination-->
 {{--                {{ $posts->links('pagination::bootstrap-4') }}--}}
             </div>
-            <livewire:sidebar/>
+            <livewire:layouts.sidebar/>
         </div>
     </div>
 </div>

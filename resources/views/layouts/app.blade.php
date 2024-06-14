@@ -10,6 +10,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ asset('css/bootstrap.rtl.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
     <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
     @livewireStyles
 </head>
