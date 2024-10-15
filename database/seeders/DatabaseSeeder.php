@@ -21,16 +21,8 @@ class DatabaseSeeder extends Seeder
 			'name' => 'admin',
 			'username' => 'admin',
 			'email' => 'admin@gmail.com',
-			'password' => '$2y$10$wWle/pwRASHm/r1AgFstMexmbQL6OhCCuLoTAz99W8aJG8aq.jV8O',
+			'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
 			'remember_token' => 'BbkpNJSDcMhebAmK8Ds0u18woX1Qwp8gjdvo1Aw4ufw7wXAHuDjL5UIcy55r',
-		]);
-		User::factory()->create([
-			'avatar' => 'avatars/goli.jpg',
-			'name' => 'goli',
-			'username' => 'goli',
-			'email' => 'goli@gmail.com',
-			'password' => '$2y$10$Ts8U1QeSZXjeq0HoR7kcVuyzVPo33kGeGURHSyLT8igKVQytm/tf2',
-			'remember_token' => '',
 		]);
 		User::factory(100)->create();
 		Post::factory(100)->create();

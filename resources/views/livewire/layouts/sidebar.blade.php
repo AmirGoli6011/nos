@@ -32,7 +32,7 @@
                         @endforeach
                     </ul>
                 @else
-                    <div class="list-item">No results!</div>
+                    <div class="list-item">چیزی پیدا نشد!</div>
                 @endif
             </div>
         @endif

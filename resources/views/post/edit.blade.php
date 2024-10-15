@@ -15,7 +15,7 @@
                             <select class="form-control" name="tags[]" id="tags" multiple>
                                 @foreach(\App\Models\Tag::all() as $tag)
                                     <option value="{{ $tag->id }}"
-                                            {{ in_array($tag->id,$post->tags->pluck('id')->toArray())?'selected':''}}>
+                                            {{ in_array($tag->id,$post->tags->pluck('id')->toArray()) ? 'selected' : ''}}>
                                         {{ $tag->name }}
                                     </option>
                                 @endforeach
