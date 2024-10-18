@@ -10,37 +10,6 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 @auth()
-                    @if(auth()->user()->id === 1)
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ route('admin.posts') }}">
-                                پست ها
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ route('admin.users') }}">
-                                یوزر ها
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ route('admin.comments') }}">
-                                کامنت ها
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ route('tag.index') }}">
-                                تگ ها
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('tag.create') }}">
-                                ساخت تگ
-                            </a>
-                        </li>
-                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('post.create') }}">
                             ساخت پست
