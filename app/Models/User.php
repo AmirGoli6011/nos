@@ -9,7 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Overtrue\LaravelFavorite\Traits\Favoriter;
 use Overtrue\LaravelFollow\Followable;
 
-class User extends Authenticatable
+class User extends \TCG\Voyager\Models\User
 {
 	use HasApiTokens, HasFactory, Notifiable, Favoriter, Followable;
 

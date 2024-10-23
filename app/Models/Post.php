@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Overtrue\LaravelFavorite\Traits\Favoriteable;
+use TCG\Voyager\Traits\Translatable;
 
 class Post extends Model
 {
-	use Sluggable, HasFactory, Favoriteable;
+	use Sluggable, HasFactory, Favoriteable, Translatable;
+
+	public $translatable = ['title', 'body'];
 
 	protected $fillable = [
 		'user_id',
@@ -47,6 +50,6 @@ class Post extends Model
 
 	public function tags()
 	{
-		return $this->belongsToMany(Tag::class);
+		return $this->belongsToMany(Category::class);
 	}
 }

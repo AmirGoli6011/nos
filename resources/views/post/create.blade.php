@@ -11,7 +11,7 @@
                         <div class="form-group">
                             <label class="form-label" for="tags">تگ ها: </label>
                             <select class="form-select" id="tags" name="tags[]" multiple>
-                                @foreach(App\Models\Tag::all() as $tag)
+                                @foreach(App\Models\Category::all() as $tag)
                                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                 @endforeach
                             </select>

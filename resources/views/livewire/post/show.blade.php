@@ -18,7 +18,7 @@
                         <!-- Post categories-->
                         @foreach($post->tags as $tag)
                             <a class="badge bg-secondary text-decoration-none link-light"
-                               href="{{ route('tag.show',$tag->name) }}">{{ $tag->name }}</a>
+                               href="{{ route('category.show',$tag->name) }}">{{ $tag->name }}</a>
                         @endforeach
                     </header>
                     <!-- Preview image figure-->

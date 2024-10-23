@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class TagController extends Controller
+class CategoryController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
@@ -14,8 +14,8 @@ class TagController extends Controller
 	 */
 	public function index()
 	{
-		$tags = Tag::orderBy('id', 'desc')->get();
-		return view('admin.tags', compact('tags'));
+		$categories = Category::orderBy('id', 'desc')->get();
+		return view('admin.categories', compact('categories'));
 	}
 
 	/**
@@ -27,12 +27,12 @@ class TagController extends Controller
 	public function store(Request $request)
 	{
 		$data = $request->validate([
-			'name' => 'required|unique:App\Models\Tag'
+			'name' => 'required|unique:App\Models\Category'
 		]);
-		Tag::create([
+		Category::create([
 			'name' => $data['name']
 		]);
-		return redirect(route('tag.index'));
+		return redirect(route('category.index'));
 	}
 
 	/**
@@ -42,7 +42,7 @@ class TagController extends Controller
 	 */
 	public function create()
 	{
-		return view('tag.create');
+		return view('category.create');
 	}
 
 	/**
@@ -51,10 +51,10 @@ class TagController extends Controller
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show(Tag $tag)
+	public function show(Category $category)
 	{
-		$posts = $tag->posts()->get();
-		return view('tag.show', compact('posts'));
+		$posts = $category->posts()->get();
+		return view('category.show', compact('posts'));
 	}
 
 	/**
@@ -63,9 +63,9 @@ class TagController extends Controller
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(Tag $tag)
+	public function edit(Category $category)
 	{
-		return view('tag.edit', compact('tag'));
+		return view('category.edit', compact('category'));
 	}
 
 	/**
@@ -75,15 +75,15 @@ class TagController extends Controller
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, Tag $tag)
+	public function update(Request $request, Category $category)
 	{
 		$data = $request->validate([
 			'name' => 'required'
 		]);
-		$tag->update([
+		$category->update([
 			'name' => $data['name']
 		]);
-		return redirect(route('tag.index'));
+		return redirect(route('category.index'));
 	}
 
 	/**
@@ -92,9 +92,9 @@ class TagController extends Controller
 	 * @param int $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy(Tag $tag)
+	public function destroy(Category $category)
 	{
-		$tag->delete();
-		return redirect(route('tag.index'));
+		$category->delete();
+		return redirect(route('category.index'));
 	}
 }

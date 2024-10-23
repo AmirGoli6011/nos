@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Post;
-use App\Models\Tag;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -26,6 +26,6 @@ class DatabaseSeeder extends Seeder
 		]);
 		User::factory(100)->create();
 		Post::factory(100)->create();
-		Tag::factory(50)->create();
+		Category::factory(50)->create();
 	}
 }

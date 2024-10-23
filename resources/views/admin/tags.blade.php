@@ -32,9 +32,9 @@
                                     <p>
                                         {{ $tag->name }}
                                     </p>
-                                    <form action="{{ route('tag.destroy',$tag->name) }}" method="post">
+                                    <form action="{{ route('category.destroy',$tag->name) }}" method="post">
                                         <a class="btn btn-success"
-                                           href="{{ route('tag.edit',$tag->name) }}">ویرایش</a>
+                                           href="{{ route('category.edit',$tag->name) }}">ویرایش</a>
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">حذف</button>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateARelBetweenPostsAndTags extends Migration
+class CreateARelBetweenPostsAndCategories extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -13,17 +13,17 @@ class CreateARelBetweenPostsAndTags extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('post_tag', function (Blueprint $table) {
+		Schema::create('category_post', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('post_id')
 				->references('id')
 				->on('posts')
 				->onDelete('cascade');
-			$table->foreignId('tag_id')
+			$table->foreignId('category_id')
 				->references('id')
-				->on('tags')
+				->on('categories')
 				->onDelete('cascade');
-			$table->unique(['post_id','tag_id']);
+			$table->unique(['post_id','category_id']);
 			$table->timestamps();
 		});
 	}
@@ -35,6 +35,6 @@ class CreateARelBetweenPostsAndTags extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('post_tag');
+		Schema::dropIfExists('category_post');
 	}
 }

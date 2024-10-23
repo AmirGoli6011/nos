@@ -22,6 +22,6 @@ class Show extends Component
 
 	public function render()
 	{
-		return view('livewire.tag.show');
+		return view('livewire.category.show');
 	}
 }

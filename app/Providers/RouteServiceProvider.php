@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Post;
-use App\Models\Tag;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -55,8 +55,8 @@ class RouteServiceProvider extends ServiceProvider
 			return Post::where('slug',$post)->firstOrfail();
 		});
 
-		Route::bind('tag',function ($tag){
-			return Tag::where('name',$tag)->firstOrfail();
+		Route::bind('category',function ($tag){
+			return Category::where('name',$tag)->firstOrfail();
 		});
 
 		Route::bind('user',function ($user){

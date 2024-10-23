@@ -3,12 +3,13 @@
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\TagController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Post\Create;
 use App\Http\Livewire\Post\Edit;
 use Illuminate\Support\Facades\Route;
+use TCG\Voyager\Voyager;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,9 @@ Auth::routes();
 Route::resource('post', PostController::class)->middleware('auth')->except('show');
 Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
 
-Route::resource('tag', TagController::class)->middleware('admin')->except('show');
+Route::resource('category', CategoryController::class)->middleware('admin')->except('show');
 
-Route::get('tag/{tag}', [TagController::class, 'show'])->name('tag.show');
+Route::get('category/{category}', [CategoryController::class, 'show'])->name('category.show');
 
 Route::prefix('user')->middleware('auth')->group(function () {
 	Route::put('{username}', [UserController::class, 'update'])->name('user.update');
@@ -42,3 +43,8 @@ Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard'
 Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index')->middleware('auth');
 
 Route::get('/@{user}', [UserController::class, 'profile'])->name('profile');
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
